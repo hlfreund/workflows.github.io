@@ -25,7 +25,6 @@ permalink: pretty
 # Build sitemap
 gems:
   - jekyll-sitemap
-theme: jekyll-theme-slate
 
 # ----------------------- #
 #   3rd Party Settings    #
