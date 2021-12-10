@@ -1,0 +1,34 @@
+---
+title: "Sequencing & Bioinformatics Workflows"
+permalink: /
+author: "Author: Hannah Freund (hfreu002@ucr.edu)"
+date: "Last update: `r format(Sys.time(), '%d %B, %Y')`" 
+output:
+  html_document:
+    toc: true # table of content true
+    toc_depth: 3  # upto three depths of headings (specified by #, ## and ###)
+    number_sections: false  ## if you want number sections at each table header
+    theme: cosmo  # many options for theme, see here: https://www.datadreaming.org/post/r-markdown-theme-gallery/
+    highlight: pygments  # specifies the syntax highlighting style
+    code_folding: show
+    toc_float: true
+    collapsed: true
+    smooth_scroll: true
+fontsize: 18pt
+always_allow_html: yes
+---
+
+Hello, and welcome to my page that is all about sequencing, bioinformatics, data science,and all things 'omics!
+
+
+# My Background
+
+My name is Hannah Freund, my pronouns are **they/them**, and I am a PhD Student at the University of California Riverside. I am in the [Genetics, Genomics, and Bioinformatics PhD Program](https://ggb.ucr.edu/) and a member of Dr. Emma Aronson's lab.
+
+I earned my Masters in Biology from California State University Long Beach in 2019. As a member of The Bioinformatics Lab led by Dr. Renaud Berlemont, I used shotgun metagenomic sequencing and bioinformatic tools to examine the gut microbial community from cartilaginous fishes. 
+
+I am currently focusing on the characterization of aeolian (i.e. wind-driven) microbiomes as well as microbiome-microbiome interactions within the Salton Sea, CA. 
+
+# About Me
+
+I am a proud member of the queer, genderqueer community as a non-binary, agender, bisexual scientist. For some more personal information about me, please feel free to see my profile on [500 Queer Scientists](https://500queerscientists.com/hannah-freund/).
