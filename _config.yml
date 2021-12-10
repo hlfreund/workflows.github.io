@@ -6,7 +6,7 @@ title: Hannah Freund
 email: hannahfreund3@gmail.com
 author: Hannah Freund
 description: "Home Page"
-baseurl: /workflows/
+baseurl: /workflows.github.io/
 defaults:
   -
     scope:
