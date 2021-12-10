@@ -8,6 +8,7 @@ output:
     toc: true # table of content true
     toc_depth: 3  # upto three depths of headings (specified by #, ## and ###)
     number_sections: false  ## if you want number sections at each table header
+    theme: cosmo  # many options for theme, see here: https://www.datadreaming.org/post/r-markdown-theme-gallery/
     highlight: pygments  # specifies the syntax highlighting style
     code_folding: show
     toc_float: true
