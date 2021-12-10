@@ -5,8 +5,16 @@
 title: Hannah Freund
 email: hannahfreund3@gmail.com
 author: Hannah Freund
-description: "Hannah's Page"
-
+description: "Home Page"
+defaults:
+  -
+    scope:
+      type: pages
+      path: _pages
+    values:
+      is_post: false
+      layout: default
+include: [_pages]
 # ----------------------- #
 #    Jekyll & Plugins     #
 # ----------------------- #
@@ -17,6 +25,7 @@ permalink: pretty
 # Build sitemap
 gems:
   - jekyll-sitemap
+theme: jekyll-theme-slate
 
 # ----------------------- #
 #   3rd Party Settings    #
