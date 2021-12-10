@@ -1,1 +1,47 @@
+# ----------------------- #
+#      Main Configs       #
+# ----------------------- #
+
+title: Hannah Freund
+email: hannahfreund3@gmail.com
+author: Hannah Freund
+description: "Hannah's Page"
+
+# ----------------------- #
+#    Jekyll & Plugins     #
+# ----------------------- #
+
+# Build settings
+markdown: kramdown
+permalink: pretty
+# Build sitemap
+gems:
+  - jekyll-sitemap
 theme: jekyll-theme-slate
+
+# ----------------------- #
+#   3rd Party Settings    #
+# ----------------------- #
+
+social:
+  - icon: github
+    title: github
+    url: https://github.com/hlfreund
+  - icon: envelope-o
+    title: email
+    url: mailto:hannahfreund3@gmail.com
+  - icon: linkedin
+    title: linkedin
+    url: https://www.linkedin.com/in/hannahfreund/
+  - icon: file-pdf-o
+    title: CV
+    url: img/Hannah_Freund_CV.pdf
+#  - icon: website
+#    title: CV Lattes
+#    url: http://lattes.cnpq.br/5399100590606067
+  - icon: twitter
+    title: twitter
+    url: https://twitter.com/UrFreundHannah
+  - icon: fab fa-google
+    title: google scholar
+    url: https://scholar.google.com/citations?user=yvcDi8gAAAAJ&hl=en&oi=ao
