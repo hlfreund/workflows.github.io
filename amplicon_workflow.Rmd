@@ -1393,10 +1393,6 @@ My name is Hannah and my pronouns are they/them. I am currently a PhD Student at
 
 If you have any questions regarding this workflow and the scripts I used, do not hesitate to contact [me](mailto:hfreu002@ucr.edu?subject=Amplicon Analysis Workflow). Or, if you'd like to talk bioinformatics and all things 'omics, I would love that too!
 
-If you'd like to learn more about my research background and check out some of my other work, feel free to visit my [website](https://hlfreund.github.io/). It is a work in progress, just fyi!
-
-For some personal information about me, check out my page with [500 Queer Scientists](https://500queerscientists.com/hannah-freund/), and my [twitter](https://twitter.com/UrFreundHannah) if you're curious.
-
 <div align="center">**Thank you so much for checking out my workflow!**</div>
 <center>
 [![website](amplicon_workflow/mylogo.png)](https://hlfreund.github.io/)
