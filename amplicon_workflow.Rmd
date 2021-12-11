@@ -156,14 +156,14 @@ Here, E is the estimated probability of the base call being wrong. The higher th
 Below is an example of the "per base sequence quality" portion of the report. This portion of the report helps me to determine where I should trim my sequences as I move forward with the analysis. This part of the report can also give you a sense on whether there was an error in your sequencing run. For example, if the average quality score (i.e., the blue line in the report) across all of the bases dips below 30 for half of the sequence length in all of my samples, that could indicate that there was an error with the sequencing run itself.
 
 <center>
-![](fastqc_base_seq_qual_plot.png)
+![](amplicon_workflow/fastqc_base_seq_qual_plot.png)
 </center>
 <div align="center">Figure 1: Per Base Quality Scores from FastQC Report</div></br>
 
 Another useful piece of the FastQC report is the adapter content tab, which is the very last tab in the report. This portion of the report tells us the percentage of reads that have adapter sequences at specific base positions along the reads. The following snapshot from a FastQC report shows that the Small RNA 3' adapter sequence is found in ~2% of the sequences starting at around the 160th base. We can use this information to then decide exactly which adapter sequences to cut from our samples in the trimming step.
 
 <center>
-![](fastqc_adapter_content.png)
+![](amplicon_workflow/fastqc_adapter_content.png)
 </center>
 <div align="center">Figure 2: Frequency of Adapter Sequences from FastQC Report</div></br>
 
@@ -214,7 +214,7 @@ done
 ```
 The following image shows a sample eestats2 report. For this specific sample, the ideal trimming length of the sequences would be around 250 basepairs long. This is because when considering the expected error threshold of 1%, more than 80.8% of the sequence pass this threshold. Though the 300 bp length also allows high rentention of reads, we know that the per base quality of this sample drops as we approach the 300 bp position. Thus, it seems like trimming these sequences to 250 bps would be ideal moving forward.
 <center>
-![](eestats_example_report.png)
+![](amplicon_workflow/eestats_example_report.png)
 </center>
 <div align="center">Figure 3: eestats Report Example</div></br>
 For more information on the `eestats2` programs by [USEARCH](https://www.drive5.com/usearch/), please read the documentation [here](https://www.drive5.com/usearch/manual/cmd_fastq_eestats2.html).
@@ -294,13 +294,13 @@ tmux new -s mysession # start new tmux session named mysession; do this if you h
 nvim DADA2_tutorial_16S_pipeline.R # load R script using nvim
 ```
 <center>
-![](nvim_openR.png)
+![](amplicon_workflow/nvim_openR.png)
 </center>
 <div align="center">Figure 4a: Neovim Display of R script</div></br>
 
 Almost immediately after the R script opens in nvim, I type `\rf`. This will open another window showing your terminal. You can toggle the horizontal verses vertical alignment fo the windows by typing `Ctrl-w shift-H` for a horizontal alignment or `Ctrl-w shift-V`for a vertical alignment. Below is what the screen should look like after typing `\rf` followed by `Ctrl-w shift-H`. You can see the R script is open in the left window, and my terminal is open in the right window.
 <center>
-![](nvim_horizontal.png)
+![](amplicon_workflow/nvim_horizontal.png)
 </center>
 <div align="center">Figure 4b: View of Neovim Display after typing `\rf`</div></br>
 Now that we are in nvim, all you need to do to run a line of code is to just hit the `space` bar! You can also toggle between windows using `Ctrl-w w`, edit or type code by pressing `i` to insert code, and leaving the editing mode by pressing `esc`. To quit and save changes to your R file, just type `:wq`, or to quit without saving changes to your file, just type `:q!`. When using nvim, I keep Dr. Girke's handy [tmux/nvim tutorial](https://girke.bioinformatics.ucr.edu/GEN242/tutorials/linux/linux/#basic-usage-of-nvim-r-tmux) open as a reference just in case.
@@ -350,11 +350,11 @@ ggsave(plot1,filename = "16S_pretrim_DADA2_F_quality.pdf", width=15, height=12, 
 ggsave(plot2,filename = "16S_pretrim_DADA2_R_quality.pdf", width=15, height=12, dpi=600) 
 ```
 <center>
-![](16S_pretrim_DADA2_F_quality.png)
+![](amplicon_workflow/16S_pretrim_DADA2_F_quality.png)
 </center>
 <div align="center">Figure 5a: Per Base Sequence Quality Reports for 2 Samples (R1 Only)</div></br>
 <center>
-![](16S_pretrim_DADA2_R_quality.png)
+![](amplicon_workflow/16S_pretrim_DADA2_R_quality.png)
 </center>
 <div align="center">Figure 5b: Per Base Sequence Quality Reports for 2 Samples (R2 Only)</div></br>
 
@@ -414,7 +414,7 @@ plot_error<-plotErrors(errF, nominalQ=TRUE)## sanity check by visualizing estima
 ggsave(plot_error,filename = "16S_errormodel_DADA2.pdf", width=15, height=15, dpi=600)
 ```
 <center>
-![](16S_errormodel_DADA2.png)
+![](amplicon_workflow/16S_errormodel_DADA2.png)
 </center>
 <div align="center">Figure 6: Rarefaction Curve Example</div></br>
 
@@ -705,7 +705,7 @@ rarecurve(as.matrix(bac.ASV_table), col=metadata$Category_col, step=1000, label=
 dev.off()
 ```
 <center>
-![](rarecurve_example.png)
+![](amplicon_workflow/rarecurve_example.png)
 </center>
 <div align="center">Figure 7: Rarefaction Curve Example, Colored by Sample Category </div></br>
 
@@ -761,7 +761,7 @@ bac.a.div<-ggplot(bac.div.metadat, aes(x=Category, y=Bac_Shannon_Diversity, fill
 ggsave(bac.a.div,filename = "Bacterial_alpha_diversity.png", width=12, height=10, dpi=600)
 ```
 <center>
-![](Bacterial_alpha_diversity.png)
+![](amplicon_workflow/Bacterial_alpha_diversity.png)
 </center>
 <div align="center">Figure 8a: Boxplot of Alpha Diversity by Sample Category</div></br>
 
@@ -791,7 +791,7 @@ qqline(bac.div.metadat$Bac_Species_Richness, col = "steelblue", lwd = 2)
 dev.off()
 ```
 <center>
-![](qqplot.png)
+![](amplicon_workflow/qqplot.png)
 </center>
 <div align="center">Figure 8b: Normal Q-Q Plot: Species Richness</div></br>
 
@@ -804,7 +804,7 @@ bac.spec.rich<-ggplot(bac.div.metadat, aes(x=Category, y=Bac_Species_Richness, f
 ggsave(bac.spec.rich,filename = "Bacterial_species_richness.png", width=12, height=10, dpi=600)
 ```
 <center>
-![](Bacterial_species_richness.png)
+![](amplicon_workflow/Bacterial_species_richness.png)
 </center>
 <div align="center">Figure 8c: Boxplot of Species Richness by Sample Category</div></br>
 
@@ -856,7 +856,7 @@ legend("topright",legend = c("Clear Cut Soil", "Gopher", "No Gopher", "Old Growt
 dev.off()
 ```
 <center>
-![](16S_CLR_cluster_Category.png)
+![](amplicon_workflow/16S_CLR_cluster_Category.png)
 </center>
 <div align="center">Figure 9: Hierarchical Clustering (with Centered Log-Ratio Transformed Data)</div></br>
 
@@ -900,7 +900,7 @@ pcoa1<-ggplot(b.pcoa.meta, aes(x=Axis.1, y=Axis.2)) +geom_point(aes(color=factor
 ggsave(pcoa1,filename = "16S_pcoa_CLR.png", width=12, height=10, dpi=600)
 ```
 <center>
-![](16S_pcoa_CLR.png)
+![](amplicon_workflow/16S_pcoa_CLR.png)
 </center>
 <div align="center">Figure 10: Principal Coordinates Analysis, Colored by Sample Category</div></br>
 
@@ -939,7 +939,7 @@ plot(b.disper,main = "Centroids and Dispersion based on Aitchison Distance", col
 dev.off()
 ```
 <center>
-![](pcoa_betadispersion.png)
+![](amplicon_workflow/pcoa_betadispersion.png)
 </center>
 <div align="center">Figure 11a: Principal Coordinates Analysis of </div></br>
 ```{r visualize_dispersion2, eval=FALSE}
@@ -948,7 +948,7 @@ boxplot(b.disper,xlab="Sample Category", main = "Distance to Centroid by Categor
 dev.off()
 ```
 <center>
-![](boxplot_centroid_distance.png)
+![](amplicon_workflow/boxplot_centroid_distance.png)
 </center>
 <div align="center">Figure 11b: Principal Coordinates Analysis. Colored by Sample Category</div></br>
 
@@ -994,7 +994,7 @@ tab2
 dev.off()
 ```
 <center>
-![](permanova_results_screenshot.png)
+![](amplicon_workflow/permanova_results_screenshot.png)
 </center>
 <div align="center">Figure 12: Table of PERMANOVA Results (by Category)</div></br>
 
@@ -1055,7 +1055,7 @@ b.phy_RA<-ggplot(b.phyla_RA_meta, aes(x=SampleID, y=Counts, fill=Phylum))+geom_b
 ggsave(b.phy_RA,filename = "16S_phyla_RA.png", width=17, height=10, dpi=600)
 ```
 <center>
-![](16S_phyla_RA.png)
+![](amplicon_workflow/16S_phyla_RA.png)
 </center>
 <div align="center">Figure 13: Relative Abundance by Phyla Across Samples</div></br>
 
@@ -1100,7 +1100,7 @@ ts1<-ggplot(cls_cat.1, aes(Class, Counts)) +
 ggsave(ts1,filename = "16S_Class_1percent_RA_category.png", width=12, height=10, dpi=600)
 ```
 <center>
-![](16S_Class_1percent_RA_category.png)
+![](amplicon_workflow/16S_Class_1percent_RA_category.png)
 </center>
 <div align="center">Figure 14: Taxonomic Summary of Bacterial Relative Abundance (> 1%) by Class Per Sample. Colored by Sample Category.</div></br>
 
@@ -1138,7 +1138,7 @@ c1<-ggplot(b.cls.cat.1, aes(x=Category, y=Counts, fill=Class))+geom_bar(stat="id
 ggsave(c1,filename = "16S_Class_1percent_RA_byCategory.png", width=12, height=10, dpi=600)
 ```
 <center>
-![](16S_Class_1percent_RA_byCategory.png)
+![](amplicon_workflow/16S_Class_1percent_RA_byCategory.png)
 </center>
 <div align="center">Figure 15: Relative Abundance (> 1%) of Bacterial Classes by Sample Category</div></br>
 
@@ -1317,7 +1317,7 @@ autoplot(rda.ccs, arrows = TRUE,data = rda.ccs ,layers=c("biplot","sites"),label
 dev.off()
 ```
 <center>
-![](autoplot_rda_example.png)
+![](amplicon_workflow/autoplot_rda_example.png)
 </center>
 <div align="center">Figure 16: Redundancy Analysis Autoplot for the Clear Cut Soil category by `ggvegan`</div></br>
 
@@ -1345,7 +1345,7 @@ rda.plot1<-ggplot(rda.axes, aes(x = RDA1, y = RDA2)) + geom_point(size=2) +
 ggsave(rda.plot1,filename = "16S_RDA_example1.png", width=15, height=12, dpi=600) =
 ```
 <center>
-![](16S_RDA_example1.png)
+![](amplicon_workflow/16S_RDA_example1.png)
 </center>
 <div align="center">Figure 17a: Redundancy Analysis of Clear Cut Soil samples w/ `ggplot2` Example 1</div></br>
 ```{r ggplot_rda, eval=FALSE}
@@ -1362,7 +1362,7 @@ rda.plot2<-ggplot(rda.axes, aes(x = RDA1, y = RDA2)) + geom_point(size=3) +
 ggsave(rda.plot2,filename = "16S_RDA_example2.png", width=15, height=12, dpi=600)
 ```
 <center>
-![](16S_RDA_example2.png)
+![](amplicon_workflow/16S_RDA_example2.png)
 </center>
 <div align="center">Figure 17b: Redundancy Analysis of Clear Cut Soil samples w/ `ggplot2` Example 2</div></br>
 
@@ -1399,7 +1399,7 @@ For some personal information about me, check out my page with [500 Queer Scient
 
 <div align="center">**Thank you so much for checking out my workflow!**</div>
 <center>
-[![website](mylogo.png)](https://hlfreund.github.io/)
+[![website](amplicon_workflow/mylogo.png)](https://hlfreund.github.io/)
 </center>
 
 # References
