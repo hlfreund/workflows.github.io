@@ -17,6 +17,13 @@ output:
 fontsize: 18pt
 always_allow_html: yes
 ---
+
+<style type="text/css">
+  body{
+  font-size: 15pt;
+}
+</style>
+
 <!--
 Render from R:
 rmarkdown::render_site(encoding = 'UTF-8')
