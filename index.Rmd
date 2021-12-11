@@ -14,7 +14,7 @@ output:
     toc_float: true
     collapsed: true
     smooth_scroll: true
-fontsize: 18pt
+fontsize: 15pt
 always_allow_html: yes
 ---
 
