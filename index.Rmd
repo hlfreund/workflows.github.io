@@ -20,7 +20,7 @@ always_allow_html: yes
 
 <style type="text/css">
   body{
-  font-size: 15pt;
+  font-size: 13pt;
 }
 </style>
 
