@@ -17,17 +17,33 @@ output:
 fontsize: 18pt
 always_allow_html: yes
 ---
+<!--
+Render from R:
+rmarkdown::render_site(encoding = 'UTF-8')
+ * Need index.html and _site.yml and all other Rmd files in same directory to build full website
+ 
+Rendering from the command-line. To render to PDF format, use the argument setting: output_format="pdf_document".
+$ Rscript -e "rmarkdown::render_site(encoding = 'UTF-8')"
 
+Add logo:
+htmltools::img(src = knitr::image_uri("mylogo.png"), 
+               alt = 'logo', 
+               style = 'position:absolute; top:0; center:0; padding:10px;')
+-->
 Hello, and welcome to my page that is all about sequencing, bioinformatics, data science,and all things 'omics!
+
 
 
 # My Background
 
-My name is Hannah Freund, my pronouns are **they/them**, and I am a PhD Student at the University of California Riverside. I am in the [Genetics, Genomics, and Bioinformatics PhD Program](https://ggb.ucr.edu/) and a member of Dr. Emma Aronson's lab.
+My name is Hannah Freund, my pronouns are they/them, and I am a PhD Student at the University of California Riverside. I am in the [Genetics, Genomics, and Bioinformatics PhD Program](https://ggb.ucr.edu/) and a member of Dr. Emma Aronson's lab.
 
-I earned my Masters in Biology from California State University Long Beach in 2019. As a member of The Bioinformatics Lab led by Dr. Renaud Berlemont, I used shotgun metagenomic sequencing and bioinformatic tools to examine the gut microbial community from cartilaginous fishes. 
+I earned my Masters in Biology from California State University Long Beach in 2019. As a member of The Bioinformatics Lab led by Dr. Renaud Berlemont, I used shotgun metagenomic sequencing and bioinformatic tools to examine the gut microbial community from cartilaginous fishes. You can find my masters thesis [here](https://www.proquest.com/dissertations-theses/insights-into-structure-function-gut-metagenome/docview/2294094842/se-2).
 
-I am currently focusing on the characterization of aeolian (i.e. wind-driven) microbiomes as well as microbiome-microbiome interactions within the Salton Sea, CA. 
+I am currently focusing on the characterization of aeolian (i.e. wind-driven) microbiomes as well as microbiome-microbiome interactions within the Salton Sea, CA.
+
+A little more about me - I am a proud member of the queer, genderqueer community as an agender, bisexual scientist. For some more personal information about me, please feel free to see my profile on [500 Queer Scientists](https://500queerscientists.com/hannah-freund/).
+
 
 <center>
 ![](workflow_biorender.png)
@@ -59,7 +75,10 @@ Here are some of my favorite resources for learning more about coding, bioinform
 * [Women in Data Science](https://www.widsconference.org/)
 * [R-Ladies Global](https://rladies.org/)
 
-# About Me
 
-I am a proud member of the queer, genderqueer community as a non-binary, agender, bisexual scientist. For some more personal information about me, please feel free to see my profile on [500 Queer Scientists](https://500queerscientists.com/hannah-freund/).
+<div align="center">**Thanks for stopping by!**</div>
+<center>
+[![website](amplicon_workflow/mylogo.png)](https://hlfreund.github.io/)
+</center>
+
 
