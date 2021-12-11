@@ -40,6 +40,7 @@ Here are some of my favorite resources for learning more about coding, bioinform
 
 * [Happy Belly Bioinformatics](https://astrobiomike.github.io/)
 * [DADA2 Pipeline Tutorial](https://benjjneb.github.io/dada2/tutorial.html)
+* [Dr. Mike Lee's Microbial Omics Slack Channel](https://join.slack.com/t/microbialomics/shared_invite/zt-hewufeet-RTgCOf8TnfCUbIP2_GdQUg)
 * [Biostars](https://www.biostars.org/)
 * [Stackoverflow](https://stackoverflow.com/)
 * [Happy Git and Github for the userR](https://happygitwithr.com/)
@@ -51,6 +52,12 @@ Here are some of my favorite resources for learning more about coding, bioinform
 * [Bash Guide: Commands & Arguments](http://mywiki.wooledge.org/BashGuide/CommandsAndArguments)
 * [Bash Scripting Cheatsheet](https://devhints.io/bash)
 * [StatQuest with Josh Starmer](https://www.youtube.com/c/joshstarmer)
+
+# Awesome Organizations to Join and/or Support
+
+* [Black Girls Code](https://www.blackgirlscode.com/)
+* [Women in Data Science](https://www.widsconference.org/)
+* [R-Ladies Global](https://rladies.org/)
 
 # About Me
 
