@@ -46,6 +46,8 @@ This is a tutorial on how to process your 16S ITS1/ITS2 amplicon sequences and i
 
 To create this tutorial, I have assembled scripts I've used to analyze 16S data provided by Dr. Emma Aronson's lab. The data I am working with to create this workflow comes from a project that examined soil microbial community composition in Mount Saint Helens. The target region was the V4 region within the 16S gene, and sequencing was performed with an Illumina MiSeq (2x300). 
 
+You can find all of the scripts used in this workflow in this [repository](https://github.com/hlfreund/Amplicon_Sequencing_Worfklow).
+
 This tutorial would not have been possible without [Dr. Benjamin Callahan's](https://callahanlab.cvm.ncsu.edu/) `DADA2` [program](https://github.com/benjjneb/dada2) [@Callahan2016] and [tutorials](https://benjjneb.github.io/dada2/tutorial.html). Additionally, I would like to especially thank [Dr. Mike Lee](https://astrobiomike.github.io/research/) for his guidance, his patience, and his Happy Belly Bioinformatics tutorial called [**Amplicon Analysis**](https://astrobiomike.github.io/amplicon/dada2_workflow_ex#removing-likely-contaminants) tutorial [@Lee2019].
 
 ## Considerations before you begin
