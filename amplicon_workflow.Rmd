@@ -639,7 +639,7 @@ head(bac.ASV_tax)
 ### Data Formatting, Filtering, and Transformation
 Now that we have imported our ASV count table, our ASV taxonomy table, and our metadata, we can start to reformat the actual data objects in R to get them ready for running through the `vegan` suite of tools. First we are going to merge our ASV count table and our ASV taxonomy tables together and filter out some unwanted taxa.
 
-Even though we are analyzing bacterial data, sometimes chloroplast and mitochondrial sequences are mistakenly attributed to 16S genes. For example, in the Silva database, Chloroplast sequences attributed to Eukaryotes are found within the databases' set of Cyanobacteria sequences. It's important to filter our these eukaryotic sequences before we start playing with statistical analyses.
+Even though we are analyzing bacterial data, sometimes chloroplast and mitochondrial sequences are attributed to 16S genes. For example, in the Silva database, Chloroplast sequences attributed to Eukaryotes are found within the databases' set of Cyanobacteria sequences. Some sequences within this Chloroplast distinction are actually labeled as bacteria, but they have not been phylogenetically connected to a reference genome. It's important to filter our these eukaryotic sequences before we start playing with statistical analyses.
 ```{r merge_filter_data, eval=FALSE}
 # first we merge the ASV count object and the ASV taxonomy object together by column called "ASV_ID"
 bac.ASV_dat<-merge(bac.ASV_counts,bac.ASV_tax, by="ASV_ID")
@@ -713,6 +713,7 @@ dev.off()
 
 In this rarefaction curve, each curve is colored based on its sample category: red represents "Clear Cut Soil", yellow represents the "Gopher" category , light blue represents the "No Gopher" category, and dark green represents "Old Growth" soil. Based on this rarefaction curve, it appears that samples within the Old Growth category have a smaller, average sample size compared to the other sample categories.
 
+### Shannon Diversity & Species Richness
 Now that I've viewed the rarefaction curve and looked for outliers, we can move onto the alpha diversity and species richness steps. 
 
 For alpha diversity and species richness measurements, we are going to use raw data. The use of raw data for any kind of analysis is quite controversial because not all of the samples have the same number of observations: for example, one of our samples may have thousands of ASV counts, whereas other samples can be much smaller or larger than that. Transforming our data can allow us to view the actual distribution of our data, revealing patterns that may have been difficult to observe in the raw data. You can find a helpful example of data transformations and the benefits via its respective Wikipedia [page](https://en.wikipedia.org/wiki/Data_transformation_(statistics)).
@@ -774,6 +775,7 @@ Not only does `ggpubr` help us with arranging and saving figures, but we can als
 We can compare the means of each sample to each other in a pair-wise fashion by using either a **T-test** (`t.test`) or a using a **Wilcoxon test** (`wilcox.test`), or compare the means across all of our samples at once using an **Analysis of Variance** aka ANOVA (`anova`) or a **Kruskal-Wallis test** (`kruskal.test`). For more information on how to use the `stat_compare_means()` function to add statistics to your plots, please see this [website](http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/76-add-p-values-and-significance-levels-to-ggplots/).
 
 Deciding on whether to use a T-test verses a Wilcoxon test, or an ANOVA verses a Kruskal-Wallis test, depends on whether your data fulfills certain assumptions held by these statistical tests. One of the assumptions for a T-test and an ANOVA is that the data is *normally distributed*. We can test for normality using the **Shapiro-Wilk test**. 
+
 The null hypothesis for the Shapiro-Wilk test is that the data is normally distributed. This means that if your p-value for the Shapiro-Wilk test is > 0.05, then the null hypothesis is accepted and the data is in fact normally distributed. However, if p is < 0.05, then the null hypothesis is rejected and your data are not normally distributed.
 
 We can also use a **Q-Q plot** to compare our data with a theoretical normal distribution. These plots show the quantiles for our data in the y-axis, and the theoretical quantiles for a normal distribution on the x-axis. If our data points lie on the line in the Q-Q plot, then the data is considered normally distributed. Skewed data will contain points that are further from the line, curving one way or another. 
@@ -813,6 +815,7 @@ ggsave(bac.spec.rich,filename = "Bacterial_species_richness.png", width=12, heig
 I did not want to overwhelm you with multiple pairwise group comparisons on this figure, so you are only seeing the results of three Wilcoxon tests comparing Clear Cut Soil to Old Growth samples, Gopher to No Gopher samples, and No Gopher to Old Growth Samples. The `*` indicate significance levels, with `*` being *p <= 0.05*, `**` being *p <= 0.01*, `***` is *p <= 0.001*, and `****` is *p <= 0.0001*. The symbol `ns` stands for *not significant*. Figure 8c shows us that the Clear Clut Soil samples have a significantly higher average Species Richness than the Old Growth samples. We can also see that our No Gopher samples are significantly higher in species richness than the Old Growth samples, but the difference between the species richness averages in the Gopher verses No Gopher samples is not statistically significant. You can also see a printed value for the Kruskal-Wallis test, which here is p = 0.00008. This test indicates that there is a significant difference in average species richness across all of the sample categories. 
 
 ## Beta Diversity {#beta-div-section}
+### Data Transformation
 Before going any further, we should transform our data. Data transformation helps us to better interpret our data by changing the scales in which we view our data, as well as reducing the impact of skewed data and/or outliers in our data set. We can also perform a transformation that normalizes our data, aka changing the distribution of our data to be a normal (i.e., Gaussian) distribution, which is useful for running certain statistical tests that assume normality (like T-tests, ANOVAs). For more on why you should transform your data and what kind of transformations are out there, check out the resources included in this very helpful [Medium article](https://medium.com/analytics-vidhya/a-guide-to-data-transformation-9e5fa9ae1ca3). I have also found this [Medium article](https://medium.com/@kyawsawhtoon/log-transformation-purpose-and-interpretation-9444b4b049c9#:~:text=Log%20transformation%20is%20a%20data,on%20the%20natural%20log%20transformation.) on log transformations helpful as well.
 
 Two useful transformations I have seen used are the **variance stabilizing transformation** (i.e, **VST**) and the  **centered log-ratio** transformation (i.e, **CLR**). For information on how to employ this particular transformation, please check out this [tutorial](https://astrobiomike.github.io/amplicon/dada2_workflow_ex#beta-diversity) by the legendary bioinformatician [Dr. Mike Lee](https://astrobiomike.github.io/research/). Though I won't be using the VST transformation, I have not found any literature saying that the CLR transformation is better than VST. The CLR transformation appears to be popular among statisticians, which is why I am choosing to go this route.
@@ -835,7 +838,9 @@ head(ASV)
 asv_clr<-microbiome::transform(ASV, "clr")
 head(asv_clr)
 ```
-Now that we have our transformed ASV counts, we can create a Euclidean distance matrix that will describe how close (aka similar) our samples are to each other based on their microbial composition. 
+
+### Hierarchical Clustering
+Now that we have our transformed ASV counts, we can create a Euclidean distance matrix that will describe how close (aka similar) our samples are to each other based on their microbial composition. The Euclidean distance between CLR-Transformed compositional data is known as **Aitchison Distance** [@Quinn2018].
 ```{r clustering_exposure, eval=FALSE}
 # create CLR Sample x Species matrix for input into dist()
 b.clr<-as.matrix(t(asv_clr))
@@ -862,7 +867,10 @@ dev.off()
 </center>
 <div align="center">Figure 9: Hierarchical Clustering (with Centered Log-Ratio Transformed Data)</div></br>
 
-Though there are some samples not clustered within their sample categories, overall it appears that samples from specific categories form distinct clusters. This indicates thats generally, samples from the same category have similar microbial community composition. We can also see that most of the samples in the Clear Cut Soil category are more similar to the Gopher and No Gopher samples compared to the Old Growth samples. Though this dendogram is helpful, it's not as informative as other visualizations we can do. To learn more about how these sample categories' microbiomes compare to one another, we can use our Euclidean distance matrix (created from CLR transformed ASV counts) to generate an ordination known as **Principal Coordinate Analysis**, aka a **PCoA**.
+Though there are some samples not clustered within their sample categories, overall it appears that samples from specific categories form distinct clusters. This indicates thats generally, samples from the same category have similar microbial community composition. We can also see that most of the samples in the Clear Cut Soil category are more similar to the Gopher and No Gopher samples compared to the Old Growth samples. Though this dendogram is helpful, it's not as informative as other visualizations we can do. 
+
+### Principal Coordinate Analysis (PCoA)
+To learn more about how these sample categories' microbiomes compare to one another, we can use our Euclidean distance matrix (created from CLR transformed ASV counts) to generate an ordination known as **Principal Coordinate Analysis**, aka a **PCoA**.
 
 I am not going to get into the math behind a PCoA, but you can learn more by watching this excellent [StatQuest YouTube video](https://youtu.be/GEn-_dAyYME) and this helpful [link](https://mb3is.megx.net/gustame/dissimilarity-based-methods/principal-coordinates-analysis) that describes what a PCoA is and its uses. If you're interested in learning more about ordinations in general and the impacts they can have on microbiome data, please read "Uncovering the Horseshoe Effect in Microbial Analyses" by @Morton2017.
 
@@ -943,7 +951,7 @@ dev.off()
 <center>
 ![](amplicon_workflow/pcoa_betadispersion.png)
 </center>
-<div align="center">Figure 11a: Principal Coordinates Analysis of </div></br>
+<div align="center">Figure 11a: Principal Coordinates Analysis w/ `betadisper()`. Colored by Sample Category </div></br>
 ```{r visualize_dispersion2, eval=FALSE}
 png('boxplot_centroid_distance.png',width = 700, height = 600, res=100)
 boxplot(b.disper,xlab="Sample Category", main = "Distance to Centroid by Category", sub="Based on Aitchison Distance", names=c("Clear Cut Soil", "Gopher", "No Gopher", "Old Growth"), col=colorset1$Category_col)
@@ -952,9 +960,11 @@ dev.off()
 <center>
 ![](amplicon_workflow/boxplot_centroid_distance.png)
 </center>
-<div align="center">Figure 11b: Principal Coordinates Analysis. Colored by Sample Category</div></br>
+<div align="center">Figure 11b: Distance to Centroid of Dispersion. Colored by Sample Category</div></br>
 
-The reason that our dispersion results are problematic is that if we try to compare the groups using a **Permutational Analysis of Variance** (aka a **PERMANOVA**), the significant differences we may see between groups could be attributed to their unequal variances (i.e., dispersion effects) rather than actual differences in the community compositions by category. 
+The reason that our dispersion results are problematic is that if we try to compare the groups using a **Permutational Analysis of Variance** (aka a **PERMANOVA**), the significant differences we may see between groups could be attributed to their unequal variances (i.e., dispersion effects) rather than actual differences in the community compositions by category.
+
+### PERMANOVA w/ Aitchison Distance
 
 A PERMANOVA is similar to an ANOVA in that both analyses compare differences between groups (using *sum-of-squares*), but a PERMANOVA runs multiple permutations to compare these *distances* to each other - whereas an ANOVA is comparing group *averages* to each other without the use of permutations. Another difference is that while ANOVAs assume that the data is normally distributed, the PERMANOVA assumes that the groups have equal variance (dispersion). For more information on PERMANOVAs and comparing group variances, check out this very helpful [link](https://archetypalecology.wordpress.com/2018/02/21/permutational-multivariate-analysis-of-variance-permanova-in-r-preliminary/) by [Dr. Joshua Ebner](https://scholar.google.com/citations?user=0U4m9BUAAAAJ&hl=en).
 
@@ -1085,6 +1095,8 @@ colnames(b.cls_m)[which(names(b.cls_m) == "variable")] <- "Class"
 colnames(b.cls_m)[which(names(b.cls_m) == "value")] <- "Counts"
 head(b.cls_m) ## relative abundance based on sum of counts by class!
 ```
+
+### Taxonomic Summaries
 Now that we have calculated the relativized counts by class according to our sample categories, let's visualize it! Instead of a stacked barplot, we could visualize this in a different way - shout out to Dr. Mike Lee for sharing this technique in his amplicon [tutorial](https://astrobiomike.github.io/amplicon/dada2_workflow_ex)!
 
 Dr. Lee visualized the proportions of gene copies recovered in a way that he calls **taxonomic summaries**. These summaries allow us to view the relative abundance (or gene copy number, or any abundance measurement) of our microbes by having our x-axis be the taxa themselves rather than the sample IDs or the group labels. Personally I find these taxonomic summaries useful for comparing the relative abundance of specific taxa across multiple groups. To provide an example that's easy to look at, we are going to view microbial classes by category that have a relative abundance of at least 1% or higher per sample.
@@ -1108,6 +1120,7 @@ ggsave(ts1,filename = "16S_Class_1percent_RA_category.png", width=12, height=10,
 
 This taxonomic summary tells us that Old Growth samples have a higher relative abundance (>20-40%) of the Acidimicrobiia class compared to samples belonging to the other categories. Gammaproteobacteria appears to be the most abundant class in Clear Cut Soil samples, with some samples having a relative abundance of this taxa that is greater than 20%. Interestingly, these samples from the Clear Cut Soil category are the only samples contain Bacilli, though this could be due to our 1% relative abundancer threshold for this figure.
 
+### Relative Abundance by Category
 Maybe it would be helpful to know the relative abundance of taxa by the categories themselves rather than the relative abundance by sample. We can easily calculate this and visualize a stacked barplot to compare sample categories.
 ```{r class_RA_by_cat, eval=FALSE}
 head(all_bac)
@@ -1157,6 +1170,7 @@ So at this point you're probably asking yourself "how do I know if my data has a
 
 For more information on how CCAs and RDAs are calculated and their applications, please view this helpful [tutorial](http://dmcglinn.github.io/quant_methods/lessons/multivariate_models.html) for a deep look into different Euclidean-based ordinations. I also recommend watching Dr. Ralf Shaefer's [YouTube video on RDAs](https://www.youtube.com/watch?v=AjU6s7-EBGY&t=1s) as well as this helpful [YouTube video](https://youtu.be/tVnnG7mFeqA) that walks you through different ordination techniques using the `vegan` package in R.
 
+### Prep Step 1: Detrended Correspondence Analysis (DCA)
 Let's first run a DCA to determine the length of our first axis and decide which ordination technique to use. For this we are going to use our **CLR-transformed ASV table** as our site x species matrix. The `decorana()` function from vegan performs the DCA, which requires that the row sums are greater than zero. Because clr transformed data can have negative values, I've decided to add a pseudocount of 1 to the matrix to fulfill the requirements of the `decorana()` function.
 
 **Note: The chemical data I will be using for this portion of the workflow is not real data from this project. These data come from a different project and are being used just for this example.**
@@ -1183,6 +1197,7 @@ summary(b.dca) #DCA1 axis length = 1.7990; use RDA
 ```
 Our first DCA axis has a length of 1.7990, which suggests that we should run an RDA with our data. 
 
+### Prep Step 2: Scale Environmtanl Data & Subset
 We first want to scale our environmental data so that they are comparable to each other, despite their initial measurements being vastly different (i.e., your mg of Cu and mg of P are not immediatley comparable). At this point, we could jump into doing an RDA...but it may be more informative if we look at the environmental drivers of each category or site one by one rather than considering the drivers across sites. 
 
 To subset our data, we will use the `lapply()` function: if `metdata$Category` is the same as (`==`) the element(s) in `site_list`, subset the metadata data frame by the `site_list` element into a new list called `site_subsets`. After this step, we will have a list where each element in the list (`site_subsets[[i]]`) will contain all of the metadata for each respective Category.
@@ -1271,6 +1286,8 @@ b.clr_C.C.S<-match_dat(b.clr,ClearCutSoil)
 head(b.clr_C.C.S)
 rownames(ClearCutSoil) %in% rownames(b.clr_C.C.S) # hopefully all of the rownames match, aka will get output of TRUE
 ```
+
+## Redundancy Analysis (RDA)
 Now that we have the metadata and the corresponding transformed ASV counts for the samples in the Clear Cut Soil category, we can run an **RDA** with the `rda()` function from the `vegan` package to see if our variables of interest drive our microbial community composition.
 
 If your DCA 1 axis was longer than 3 and you needed to run a **CCA**, all of these steps would be the same *except* that instead of using the `rda()` function by `vegan`, you would use the `cca()` function. Similar to the `decorana` function, you may need to add a small pseudocount to your transformed feature table before you run the `cca()` function.
@@ -1391,9 +1408,9 @@ Thank you for following along!
 sessionInfo()
 ```
 # About Me {#about-me}
-My name is Hannah and my pronouns are they/them. I am currently a PhD Student at UC Riverside in the [Genetics, Genomics, and Bioinformatics](https://ggb.ucr.edu/) PhD program and a member of [Dr. Emma Aronson's lab](https://profiles.ucr.edu/app/home/profile/emmaa). 
+My name is Hannah and my pronouns are they/them. I am currently a PhD Student at UC Riverside in the [Genetics, Genomics, and Bioinformatics](https://ggb.ucr.edu/) PhD program and a member of Dr. Emma Aronson's lab.
 
-If you have any questions regarding this workflow and the scripts I used, do not hesitate to contact [me](mailto:hfreu002@ucr.edu?subject=Amplicon Analysis Workflow). Or, if you'd like to talk bioinformatics and all things 'omics, I would love that too!
+If you have any questions regarding this workflow and the scripts I used, do not hesitate to contact [me](mailto:hfreu002@ucr.edu?subject=Amplicon Workflow). Or, if you'd like to talk bioinformatics and all things 'omics, I would love that too!
 
 <div align="center">**Thank you so much for checking out my workflow!**</div>
 <center>
