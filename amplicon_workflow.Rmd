@@ -1287,7 +1287,7 @@ head(b.clr_C.C.S)
 rownames(ClearCutSoil) %in% rownames(b.clr_C.C.S) # hopefully all of the rownames match, aka will get output of TRUE
 ```
 
-## Redundancy Analysis (RDA)
+### Redundancy Analysis (RDA)
 Now that we have the metadata and the corresponding transformed ASV counts for the samples in the Clear Cut Soil category, we can run an **RDA** with the `rda()` function from the `vegan` package to see if our variables of interest drive our microbial community composition.
 
 If your DCA 1 axis was longer than 3 and you needed to run a **CCA**, all of these steps would be the same *except* that instead of using the `rda()` function by `vegan`, you would use the `cca()` function. Similar to the `decorana` function, you may need to add a small pseudocount to your transformed feature table before you run the `cca()` function.

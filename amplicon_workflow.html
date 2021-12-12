@@ -1640,9 +1640,8 @@ Figure 15: Relative Abundance (&gt; 1%) of Bacterial Classes by Sample Category
 <a class="sourceLine" id="cb51-18" data-line-number="18"><span class="kw">head</span>(b.clr_C.C.S)</a>
 <a class="sourceLine" id="cb51-19" data-line-number="19"><span class="kw">rownames</span>(ClearCutSoil) <span class="op">%in%</span><span class="st"> </span><span class="kw">rownames</span>(b.clr_C.C.S) <span class="co"># hopefully all of the rownames match, aka will get output of TRUE</span></a></code></pre></div>
 </div>
-</div>
-<div id="redundancy-analysis-rda" class="section level2">
-<h2><span class="header-section-number">4.6</span> Redundancy Analysis (RDA)</h2>
+<div id="redundancy-analysis-rda" class="section level3">
+<h3><span class="header-section-number">4.5.3</span> Redundancy Analysis (RDA)</h3>
 <p>Now that we have the metadata and the corresponding transformed ASV counts for the samples in the Clear Cut Soil category, we can run an <strong>RDA</strong> with the <code>rda()</code> function from the <code>vegan</code> package to see if our variables of interest drive our microbial community composition.</p>
 <p>If your DCA 1 axis was longer than 3 and you needed to run a <strong>CCA</strong>, all of these steps would be the same <em>except</em> that instead of using the <code>rda()</code> function by <code>vegan</code>, you would use the <code>cca()</code> function. Similar to the <code>decorana</code> function, you may need to add a small pseudocount to your transformed feature table before you run the <code>cca()</code> function.</p>
 <p>To view the results of our rda, we will use the <code>summary()</code> function, and we can check the amount of variation explained by the model (i.e., R<sup>2</sup>) using the <code>RsquareAdj()</code> function. It’s wise to use the adjusted R<sup>2</sup> value because the more variables included in the model, the more inflated your R<sup>2</sup> value will be. We can also check out the individual terms of the model and their respective impact via an <code>anova()</code>. Lastly, we can see exactly which variables are the drivers of variation in our model using the <code>ordistep()</code> function. Based on the results of this last step, we can adjust our model and re-run the RDA.</p>
@@ -1739,6 +1738,7 @@ Figure 17b: Redundancy Analysis of Clear Cut Soil samples w/ <code>ggplot2</code
 <p>The first ggplot example does not amplify the biplot axes from our RDA as we see with the RDA created by <code>autoplot()</code>. The second plot looks more like what <code>autplot()</code> produced, which contains axes that were amplified to clearly show the trends. It’s important to be cautious of this type of ordination manipulation because you do not want to “identify” relationships in your data that do not actually exist. That is why I recommend comparing your RDA axes from the RDA <code>summary()</code> (i.e., your site, biplot, and species axes) so that you know exactly how much variation is being described by your environmental variables.</p>
 <p>If our RDA had shown these variables as being significant drivers of community composition in the Clear Cut Soil samples, that is what I would describe here. It is also wise to include a table that describes the significance of your RDA or CCA as well as the variation (i.e., adjust R<sup>2</sup> value) explained by your model. However, because the chemical data used for this portion of the workflow is fictional, I won’t describe this figure in depth.</p>
 <p>Because none of my environmental variables were significant drivers of community composition, I should <em>not</em> have included them in my RDA. Remember that it’s important to <em>only</em> show environmental variables on your RDAs or CCAs that <strong>significantly</strong> describe the variation in your compositional data that’s explained by your model.</p>
+</div>
 </div>
 </div>
 <div id="conclusion" class="section level1">
