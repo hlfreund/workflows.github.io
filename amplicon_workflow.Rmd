@@ -13,9 +13,18 @@ output:
     toc_float: true
     collapsed: true
     smooth_scroll: true
+  pdf_document:
+    latex_engine: xelatex
+    toc: true # table of content true
+    toc_depth: 3  # upto three depths of headings (specified by #, ## and ###)
+    number_sections: true  ## if you want number sections at each table header
+    #theme: cosmo  # many options for theme, see here: https://www.datadreaming.org/post/r-markdown-theme-gallery/
+    highlight: pygments  # specifies the syntax highlighting style
+    df_print: kable
+    citation_package: natbib
 fontsize: 15pt
 always_allow_html: yes
-bibliography: my_bib.bib
+bibliography: mybib.bib
 ---
 
 <style type="text/css">
@@ -39,6 +48,7 @@ htmltools::img(src = knitr::image_uri("mylogo.png"),
 -->
 
 ```{r setup, include=FALSE}
+options(tinytex.verbose = TRUE)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 # Background
