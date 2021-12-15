@@ -2,7 +2,7 @@
 title: "Sequencing & Bioinformatics Workflows"
 permalink: /
 author: "Author: Hannah Freund (hfreu002@ucr.edu)"
-date: "Last update: `r format(Sys.time(), '%d %B, %Y')`" 
+date: "Last update: `r format(Sys.time(), '%d %B, %Y')`"
 output:
   html_document:
     toc: true # table of content true

@@ -479,7 +479,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Amplicon Analysis Workflow</h1>
 <h4 class="author">Author: Hannah Freund (<a href="mailto:hfreu002@ucr.edu" class="email">hfreu002@ucr.edu</a>)</h4>
-<h4 class="date">Last update: 13 December, 2021</h4>
+<h4 class="date">Last update: 14 December, 2021</h4>
 
 </div>
 
@@ -493,6 +493,8 @@ div.tocify {
 Render from R:
 rmarkdown::render("Amplicon_Workflow.Rmd", clean=TRUE, output_format="html_document")
 R
+
+Note: if you render as a PDF then try to render a website, change the date format above (see here https://stackoverflow.com/questions/39415294/avoid-yaml-header-change-when-switching-knitr-output-format)
 
 Rendering from the command-line. To render to PDF format, use the argument setting: output_format="pdf_document".
 $ Rscript -e "rmarkdown::render('Amplicon_Workflow.Rmd', output_format='html_document', clean=TRUE)"
@@ -518,6 +520,7 @@ htmltools::img(src = knitr::image_uri("mylogo.png"),
 <div id="submitting-scripts-as-jobs-with-slurm" class="section level2" number="1.2">
 <h2><span class="header-section-number">1.2</span> Submitting Scripts as Jobs with Slurm</h2>
 <p>If you are unsure as to how to set up the script for submitting on your HPCC, check the code chunk below. This is the information I use when submitting a job to our Slurm system. Again, this is specifically for a system that uses the Slurm scheduler. For more information on what the arguments mean and how to set up your job submissions, please refer to this handy <a href="https://slurm.schedmd.com/pdfs/summary.pdf">cheatsheet</a> made by Slurm.</p>
+<p><strong>NOTE</strong>: If you are running these scripts on an HPCC, please load the module you need before running, or add <code>load module name_of_module</code> to your script before you call on the program you want to use.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash -l</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --nodes=1</span></span>
@@ -563,44 +566,42 @@ htmltools::img(src = knitr::image_uri("mylogo.png"),
 <div id="check-the-quality-of-your-sequences-with-fastqc" class="section level3" number="2.2.1">
 <h3><span class="header-section-number">2.2.1</span> Check the quality of your sequences with <code>FastQC</code></h3>
 <p>It’s always a good idea to check the quality of your sequences before you start your analysis, regardless of the type of sequences they are (metagenomes, RNA-seq data, etc). <code>FastQC</code> <span class="citation">(Andrews, n.d.)</span> provides a comprehensive report on the quality of your sequences and is helpful for the following: identifying primers or adapters still attached to your sequences; determining the quality of your reverse reads; etc. You can also use the FastQC reports to determine if you should attempt to merge your forward and reverse reads, or just proceed with only the forward reads.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set &quot;today&quot; variable to be date to help keep track of file generation</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># * I always create a &#39;today&#39; variable just in case I want to keep track of exactly when I created certain files and directories</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="va">today</span><span class="op">=</span><span class="va">$(</span><span class="fu">date</span> <span class="st">&quot;+%m.%d.%y&quot;</span><span class="va">)</span> <span class="co"># date is the command to get today&#39;s date, and the &quot;+%m_%d_%y&quot; will print it in month_day_year format</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># create a directory to store your FastQC results in</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">[[</span> <span class="ot">!</span> <span class="ot">-d</span> ./FastQC_Results <span class="kw">]];</span> <span class="cf">then</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mkdir</span> FastQC_Results</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># create directory within results directory for 16S FastQC Results</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">[[</span> <span class="ot">!</span> <span class="ot">-d</span> ./FastQC_Results/16S_FastQC <span class="kw">]];</span> <span class="cf">then</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mkdir</span> FastQC_Results/16S_FastQC</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># create directory within results directory for ITS2 (or ITS1) FastQC Results</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">[[</span> <span class="ot">!</span> <span class="ot">-d</span> ./FastQC_Results/ITS2_FastQC <span class="kw">]];</span> <span class="cf">then</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mkdir</span> FastQC_Results/ITS2_FastQC</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co"># loop through each 16S fastq.gz file and run through FastQC</span></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> FILE <span class="kw">in</span> 16S_Seqs/<span class="pp">*</span>.fastq.gz<span class="kw">;</span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># extract out just the sample name from the file name</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    <span class="va">f</span><span class="op">=</span><span class="va">$(</span><span class="fu">basename</span> <span class="va">$FILE)</span></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    <span class="va">SAMPLE</span><span class="op">=</span><span class="va">${f</span><span class="op">%</span>.fastq<span class="pp">*</span><span class="va">}</span> <span class="co">#string manipulation to drop .fastq and everything that comes after</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># my 16S and ITS2 sequences are in separate directories, which I why I loop through them separately below</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># create a directory to store your FastQC results in</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">[[</span> <span class="ot">!</span> <span class="ot">-d</span> ./FastQC_Results <span class="kw">]];</span> <span class="cf">then</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mkdir</span> FastQC_Results</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># create directory within results directory for 16S FastQC Results</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">[[</span> <span class="ot">!</span> <span class="ot">-d</span> ./FastQC_Results/16S_FastQC <span class="kw">]];</span> <span class="cf">then</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mkdir</span> FastQC_Results/16S_FastQC</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># create directory within results directory for ITS2 (or ITS1) FastQC Results</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">[[</span> <span class="ot">!</span> <span class="ot">-d</span> ./FastQC_Results/ITS2_FastQC <span class="kw">]];</span> <span class="cf">then</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mkdir</span> FastQC_Results/ITS2_FastQC</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co"># loop through each 16S fastq.gz file and run through FastQC</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> FILE <span class="kw">in</span> 16S_Seqs/<span class="pp">*</span>.fastq.gz<span class="kw">;</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># extract out just the sample name from the file name</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="va">f</span><span class="op">=</span><span class="va">$(</span><span class="fu">basename</span> <span class="va">$FILE)</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="va">SAMPLE</span><span class="op">=</span><span class="va">${f</span><span class="op">%</span>.fastq<span class="pp">*</span><span class="va">}</span> <span class="co">#string manipulation to drop .fastq and everything that comes after</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    <span class="ex">fastqc</span> <span class="va">$FILE</span> <span class="at">--outdir</span><span class="op">=</span>./FastQC_Results/16S_FastQC</span>
 <span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    <span class="ex">fastqc</span> <span class="va">$FILE</span> <span class="at">--outdir</span><span class="op">=</span>./FastQC_Results/16S_FastQC</span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="co"># loop through each ITS2 fastq.gz file and run through FastQC</span></span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> FILE <span class="kw">in</span> ITS2_Seqs/<span class="pp">*</span>.fastq.gz<span class="kw">;</span></span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    <span class="va">f</span><span class="op">=</span><span class="va">$(</span><span class="fu">basename</span> <span class="va">$FILE)</span></span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    <span class="va">SAMPLE</span><span class="op">=</span><span class="va">${f</span><span class="op">%</span>.fastq<span class="pp">*</span><span class="va">}</span></span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    <span class="ex">fastqc</span> <span class="va">$FILE</span> <span class="at">--outdir</span><span class="op">=</span>./FastQC_Results/ITS2_FastQC</span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co"># loop through each ITS2 fastq.gz file and run through FastQC</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> FILE <span class="kw">in</span> ITS2_Seqs/<span class="pp">*</span>.fastq.gz<span class="kw">;</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    <span class="va">f</span><span class="op">=</span><span class="va">$(</span><span class="fu">basename</span> <span class="va">$FILE)</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    <span class="va">SAMPLE</span><span class="op">=</span><span class="va">${f</span><span class="op">%</span>.fastq<span class="pp">*</span><span class="va">}</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    <span class="ex">fastqc</span> <span class="va">$FILE</span> <span class="at">--outdir</span><span class="op">=</span>./FastQC_Results/ITS2_FastQC</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
 <p>FastQC will return a report assessing the per base and per sequence quality of your sequences, as well as the GC and N (i.e., unidentified base) content across your sequences, the distribution of your sequence lengths, and whether or not adapters are still attached to your sequences. The second tab of the report details the per base sequence quality across all of your sequences. The per base quality score (<strong>Q score</strong>), also known as a <strong>Phred score</strong>, is the estimated probability that the base call is wrong. The following equation is used for calculating the Q score: <span class="math display">\[
 Q = -10log_{10}E
 \]</span> Here, E is the estimated probability of the base call being wrong. The higher the Q score, the smaller the probability of a base call error. A quality score of 30 (Q30) means that the probability of an incorrect base call is 1 in 1000, and that the base call accuracy (1 - probability of incorrect base call) is 99.9%. For more information on quality scores, please see this info from <a href="https://www.illumina.com/science/technology/next-generation-sequencing/plan-experiments/quality-scores.html">Illumina</a>.</p>
@@ -682,38 +683,39 @@ Figure 3: eestats Report Example
 <p>In addition to removing adapter and primer sequences using the the <code>literal=</code> flag, I also include a reference file provided by <code>bbduk</code> (referenced in the <code>ref=</code> flag) that contains all of the Illumina TruSeq adapters. The sequences in the reference file, in addition to the given adapters and primers, will be removed from the sequences. Below the shell script is a description of all of the flags used by <code>bbduk</code> and exactly what they mean.</p>
 <p>For more information on the <code>bbduk</code> flags, please see the <code>bbduk</code> <a href="https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbduk-guide/">documentation</a>.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">path</span><span class="op">=</span>/path/to/sequences/here <span class="co"># replace with the path to your files</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">[[</span> <span class="ot">!</span> <span class="ot">-d</span> ./Trimmed_Seqs <span class="kw">]];</span> <span class="cf">then</span> <span class="co"># creating directory to store trimmed sequences in</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mkdir</span> Trimmed_Seqs</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">[[</span> <span class="ot">!</span> <span class="ot">-d</span> ./Trimmed_Seqs/16S_Trimmed <span class="kw">]];</span> <span class="cf">then</span> <span class="co"># creating directory for specifically trimmed 16S sequences</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mkdir</span> Trimmed_Seqs/16S_Trimmed</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> 16S_Seqs/<span class="pp">*</span>_R1.fastq<span class="kw">;</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="va">f</span><span class="op">=</span><span class="va">$(</span><span class="fu">basename</span> <span class="va">$i)</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="va">SAMPLE</span><span class="op">=</span><span class="va">${f</span><span class="op">%</span>_R<span class="pp">*</span><span class="va">}</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="ex">bbduk.sh</span> <span class="at">-Xmx10g</span> in1=<span class="va">${path}</span>/16S_Seqs/<span class="va">${SAMPLE}</span>_R1.fastq in2=<span class="va">${path}</span>/16S_Seqs/<span class="va">${SAMPLE}</span>_R2.fastq out1=<span class="va">${path}</span>/Trimmed_Seqs/16S_Trimmed/<span class="va">${SAMPLE}</span>_R1_clean.fastq out2=<span class="va">${path}</span>/Trimmed_Seqs/16S_Trimmed/<span class="va">${SAMPLE}</span>_R2_clean.fastq literal=TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG,GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG ref=/bigdata/aronsonlab/shared/bbmap_resources/adapters.fa rcomp=t ktrim=r k=23 maq=10 minlength=200 mink=11 hdist=1 tpe tbo</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co"># ref ---&gt; file provided by bbduk that holds collection of Illumina TruSeq adapters</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co"># literal=(sequence here) ---&gt; literal adapter sequences to remove; &quot;N&quot; represents any base -- in this case, they are indexes within the adapters</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co"># rcomp=t ---&gt; Rcomp looks for kmers and their reverse-complements, rather than just forward kmer, if set to true</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="co"># ktrim=r ---&gt; “ktrim=r” is for right-trimming (3′ adapters)</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="co"># k=23 ---&gt; look for kmer that is 23 bp long</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="co"># mink=11 ---&gt; in addition to kmers of x length, look for shorter kmers with lengths 23 to 11 (in this case)</span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="co"># maq=10 ---&gt; This will discard reads with average quality below 10</span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="co"># hdist=1 ---&gt; hamming distance of 1</span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="co"># mlf=50 ---&gt; (minlengthfraction=50) would discard reads under 50% of their original length after trimming</span></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="co"># trimq=10 ---&gt; quality-trim to Q10 using the Phred algorithm, which is more accurate than naive trimming.</span></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="co"># qtrim=r ---&gt; means it will quality trim the right side only</span></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="co"># tpe ---&gt; which specifies to trim both reads to the same length</span></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="co"># tbo ---&gt; which specifies to also trim adapters based on pair overlap detection using BBMerge (which does not require known adapter sequences)</span></span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="co"># mm ----&gt; Maskmiddle ignores the middle base of a kmer, can turn off with mm=f</span></span></code></pre></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># my sequence files are in $path/16S_Seqs/ -- see for loop below</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">[[</span> <span class="ot">!</span> <span class="ot">-d</span> ./Trimmed_Seqs <span class="kw">]];</span> <span class="cf">then</span> <span class="co"># creating directory to store trimmed sequences in</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mkdir</span> Trimmed_Seqs</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">[[</span> <span class="ot">!</span> <span class="ot">-d</span> ./Trimmed_Seqs/16S_Trimmed <span class="kw">]];</span> <span class="cf">then</span> <span class="co"># creating directory for specifically trimmed 16S sequences</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mkdir</span> Trimmed_Seqs/16S_Trimmed</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="va">${path}</span>/16S_Seqs/<span class="pp">*</span>_R1.fastq<span class="kw">;</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="va">f</span><span class="op">=</span><span class="va">$(</span><span class="fu">basename</span> <span class="va">$i)</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="va">SAMPLE</span><span class="op">=</span><span class="va">${f</span><span class="op">%</span>_R<span class="pp">*</span><span class="va">}</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="ex">bbduk.sh</span> <span class="at">-Xmx10g</span> in1=<span class="va">${path}</span>/16S_Seqs/<span class="va">${SAMPLE}</span>_R1.fastq in2=<span class="va">${path}</span>/16S_Seqs/<span class="va">${SAMPLE}</span>_R2.fastq out1=<span class="va">${path}</span>/Trimmed_Seqs/16S_Trimmed/<span class="va">${SAMPLE}</span>_R1_clean.fastq out2=<span class="va">${path}</span>/Trimmed_Seqs/16S_Trimmed/<span class="va">${SAMPLE}</span>_R2_clean.fastq literal=TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG,GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG ref=/bigdata/aronsonlab/shared/bbmap_resources/adapters.fa rcomp=t ktrim=r k=23 maq=10 minlength=200 mink=11 hdist=1 tpe tbo</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co"># ref ---&gt; file provided by bbduk that holds collection of Illumina TruSeq adapters</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co"># literal=(sequence here) ---&gt; literal adapter sequences to remove; &quot;N&quot; represents any base -- in this case, they are indexes within the adapters</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="co"># rcomp=t ---&gt; Rcomp looks for kmers and their reverse-complements, rather than just forward kmer, if set to true</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="co"># ktrim=r ---&gt; “ktrim=r” is for right-trimming (3′ adapters)</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="co"># k=23 ---&gt; look for kmer that is 23 bp long</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="co"># mink=11 ---&gt; in addition to kmers of x length, look for shorter kmers with lengths 23 to 11 (in this case)</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="co"># maq=10 ---&gt; This will discard reads with average quality below 10</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="co"># hdist=1 ---&gt; hamming distance of 1</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="co"># mlf=50 ---&gt; (minlengthfraction=50) would discard reads under 50% of their original length after trimming</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="co"># trimq=10 ---&gt; quality-trim to Q10 using the Phred algorithm, which is more accurate than naive trimming.</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="co"># qtrim=r ---&gt; means it will quality trim the right side only</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="co"># tpe ---&gt; which specifies to trim both reads to the same length</span></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="co"># tbo ---&gt; which specifies to also trim adapters based on pair overlap detection using BBMerge (which does not require known adapter sequences)</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="co"># mm ----&gt; Maskmiddle ignores the middle base of a kmer, can turn off with mm=f</span></span></code></pre></div>
 <p>To be extra cautious and ensure that the trimming step was successful, I will run the trimmed sequences through FastQC and compare the reports. If the per base and per sequence qualities have improved and/or the adapters are absent, then I will move forward with the workflow. However, if I am still not happy with the quality of the trimmed reads, I will then run the <em>trimmed</em> reads through <code>bbduk</code> in hopes of removing persistent, unwanted sequences. I will also check the overrepresented sequences and their frequencies again, and run the most frequent overepresented sequence(s) in BLASTn.</p>
 </div>
 </div>
@@ -1783,7 +1785,6 @@ Figure 17b: Redundancy Analysis of Clear Cut Soil samples w/ <code>ggplot2</code
 ## Running under: macOS Big Sur 10.16
 ## 
 ## Matrix products: default
-## BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
 ## LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
 ## 
 ## locale:
@@ -1792,12 +1793,14 @@ Figure 17b: Redundancy Analysis of Clear Cut Soil samples w/ <code>ggplot2</code
 ## attached base packages:
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
+## other attached packages:
+## [1] rmarkdown_2.11
+## 
 ## loaded via a namespace (and not attached):
-##  [1] digest_0.6.29   R6_2.5.1        jsonlite_1.7.2  magrittr_2.0.1 
-##  [5] evaluate_0.14   rlang_0.4.12    stringi_1.7.6   jquerylib_0.1.4
-##  [9] bslib_0.3.1     rmarkdown_2.11  tools_4.0.5     stringr_1.4.0  
-## [13] xfun_0.28       yaml_2.2.1      fastmap_1.1.0   compiler_4.0.5 
-## [17] htmltools_0.5.2 knitr_1.36      sass_0.4.0</code></pre>
+##  [1] packrat_0.7.0   digest_0.6.29   R6_2.5.1        jsonlite_1.7.2  magrittr_2.0.1 
+##  [6] evaluate_0.14   stringi_1.7.6   rlang_0.4.12    jquerylib_0.1.4 bslib_0.3.1    
+## [11] tools_4.0.5     stringr_1.4.0   tinytex_0.35    xfun_0.28       yaml_2.2.1     
+## [16] fastmap_1.1.0   compiler_4.0.5  htmltools_0.5.2 knitr_1.36      sass_0.4.0</code></pre>
 </div>
 <div id="about-me" class="section level1" number="7">
 <h1><span class="header-section-number">7</span> About Me</h1>

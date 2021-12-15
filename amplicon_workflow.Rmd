@@ -1,7 +1,7 @@
 ---
 title: "Amplicon Analysis Workflow"
 author: 'Author: Hannah Freund (hfreu002@ucr.edu)'
-date: 'Last update: `r format(Sys.time(), ''%d %B, %Y'')`'
+date: "Last update: `r format(Sys.time(), '%d %B, %Y')`"
 output:
   pdf_document:
     citation_package: natbib
@@ -39,6 +39,8 @@ always_allow_html: yes
 Render from R:
 rmarkdown::render("Amplicon_Workflow.Rmd", clean=TRUE, output_format="html_document")
 R
+
+Note: if you render as a PDF then try to render a website, change the date format above (see here https://stackoverflow.com/questions/39415294/avoid-yaml-header-change-when-switching-knitr-output-format)
 
 Rendering from the command-line. To render to PDF format, use the argument setting: output_format="pdf_document".
 $ Rscript -e "rmarkdown::render('Amplicon_Workflow.Rmd', output_format='html_document', clean=TRUE)"
