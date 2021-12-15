@@ -73,6 +73,8 @@ Additionally, you will need to change your path to each of these programs depend
 
 ## Submitting Scripts as Jobs with Slurm
 If you are unsure as to how to set up the script for submitting on your HPCC, check the code chunk below. This is the information I use when submitting a job to our Slurm system. Again, this is specifically for a system that uses the Slurm scheduler. For more information on what the arguments mean and how to set up your job submissions, please refer to this handy [cheatsheet](https://slurm.schedmd.com/pdfs/summary.pdf) made by Slurm. 
+
+**NOTE**: If you are running these scripts on an HPCC, please load the module you need before running, or add `load module name_of_module` to your script before you call on the program you want to use.
 ```{bash slurm_job_prep, eval=FALSE}
 #!/bin/bash -l
 
@@ -122,9 +124,7 @@ Typically your samples will be returned to you already demultiplexed. However, i
 ### Check the quality of your sequences with `FastQC`
 It's always a good idea to check the quality of your sequences before you start your analysis, regardless of the type of sequences they are (metagenomes, RNA-seq data, etc). `FastQC` [@Andrews] provides a comprehensive report on the quality of your sequences and is helpful for the following: identifying primers or adapters still attached to your sequences; determining the quality of your reverse reads; etc. You can also use the FastQC reports to determine if you should attempt to merge your forward and reverse reads, or just proceed with only the forward reads.
 ```{bash fastqc_check, eval=FALSE}
-# Set "today" variable to be date to help keep track of file generation
-# * I always create a 'today' variable just in case I want to keep track of exactly when I created certain files and directories
-today=$(date "+%m.%d.%y") # date is the command to get today's date, and the "+%m_%d_%y" will print it in month_day_year format
+# my 16S and ITS2 sequences are in separate directories, which I why I loop through them separately below
 
 # create a directory to store your FastQC results in
 if [[ ! -d ./FastQC_Results ]]; then
@@ -247,6 +247,7 @@ In addition to removing adapter and primer sequences using the  the `literal=` f
 For more information on the `bbduk` flags, please see the `bbduk` [documentation](https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbduk-guide/). 
 ```{bash bbduk_trim, eval=FALSE}
 path=/path/to/sequences/here # replace with the path to your files
+# my sequence files are in $path/16S_Seqs/ -- see for loop below
 
 if [[ ! -d ./Trimmed_Seqs ]]; then # creating directory to store trimmed sequences in
     mkdir Trimmed_Seqs
@@ -256,7 +257,7 @@ if [[ ! -d ./Trimmed_Seqs/16S_Trimmed ]]; then # creating directory for specific
     mkdir Trimmed_Seqs/16S_Trimmed
 fi
 
-for i in 16S_Seqs/*_R1.fastq;
+for i in ${path}/16S_Seqs/*_R1.fastq;
 do
     f=$(basename $i)
     SAMPLE=${f%_R*}
