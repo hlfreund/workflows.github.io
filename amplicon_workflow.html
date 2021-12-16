@@ -479,7 +479,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Amplicon Analysis Workflow</h1>
 <h4 class="author">Author: Hannah Freund (<a href="mailto:hfreu002@ucr.edu" class="email">hfreu002@ucr.edu</a>)</h4>
-<h4 class="date">Last update: 14 December, 2021</h4>
+<h4 class="date">Last update: 15 December, 2021</h4>
 
 </div>
 
@@ -674,14 +674,14 @@ Figure 3: eestats Report Example
 <p></br> For more information on the <code>eestats2</code> programs by <a href="https://www.drive5.com/usearch/">USEARCH</a>, please read the documentation <a href="https://www.drive5.com/usearch/manual/cmd_fastq_eestats2.html">here</a>.</p>
 </div>
 </div>
-<div id="trim-sequences-and-cut-adapters-primers-etc" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> Trim sequences and cut adapters, primers, etc</h2>
+<div id="decontaminate-trim-sequences-and-cut-adapters-primers-etc" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Decontaminate &amp; Trim sequences and cut adapters, primers, etc</h2>
 <p>There are plenty of programs out there that can be used for trimming, and the following three are the most popular for amplicon analyses: <a href="https://cutadapt.readthedocs.io/en/stable/"><code>cutadapt</code></a>, <a href="http://www.usadellab.org/cms/?page=trimmomatic"><code>trimmomatic</code></a>, and <a href="https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbduk-guide/"><code>bbduk</code></a> <span class="citation">(Bushnell, n.d.)</span>. All of these programs are reputable, but I personally like the <code>bbduk</code>, and will use this tool for trimming and adapter removal.</p>
 <p>Before I trim my sequences, I refer to the FastQC reports to find out exactly which adapters I should remove from my sequences. For example, when looking at the adapter content portion of the FastQC report above, I can see that the Nextera Transposase Sequence is still present in that particular sample. Thankfully Illumina shares their adapter sequences on their <a href="https://support-docs.illumina.com/SHARE/AdapterSeq/Content/SHARE/AdapterSeq/AdapterSequencesIntro.htm">website</a>, allowing us to easily find common adapters in sequences, like the <a href="https://support-docs.illumina.com/SHARE/AdapterSeq/Content/SHARE/AdapterSeq/Nextera/SequencesNXTILMPrepAndPCR.htm">Nextera Transposase Sequence</a> for example.</p>
 <p>I also know that with the sequences I am analyzing, the PCR primers are still attached (FastQC may identify these primers in your report’s Overrepresented Sequences tab, but not necessarily the origin of these sequences). I can either remove these primer sequences using the actual sequence using the (<code>literal=</code>) flag, or I can trim from the right (<code>ftr=</code>) and/or the left (<code>ftl=</code>) of the sequences if I know exactly how long the primer sequences were.</p>
 <p>It is recommended to check the overrepresented sequences from the FastQC report to see if there are contaminating sequences present in your data. I suggest taking the most frequent overrepresented sequence and running it through <a href="https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&amp;BLAST_SPEC=GeoBlast&amp;PAGE_TYPE=BlastSearch">BLASTn</a> if the source of this overrepresented sequence says “No Hit” (meaning that FastQC cannot attribute this sequence to its list of adapter sequences). If the sequence comes up as a contaminant (i.e., a different gene than the amplicon you’re looking at) or adapter/primer of some kind, you can add this to the <code>literal=</code> flag in <code>bbduk</code> to remove the contaminant.</p>
-<p>In addition to removing adapter and primer sequences using the the <code>literal=</code> flag, I also include a reference file provided by <code>bbduk</code> (referenced in the <code>ref=</code> flag) that contains all of the Illumina TruSeq adapters. The sequences in the reference file, in addition to the given adapters and primers, will be removed from the sequences. Below the shell script is a description of all of the flags used by <code>bbduk</code> and exactly what they mean.</p>
-<p>For more information on the <code>bbduk</code> flags, please see the <code>bbduk</code> <a href="https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbduk-guide/">documentation</a>.</p>
+<p>In addition to removing adapter and primer sequences using the the <code>literal=</code> flag, I also include a reference file provided by <code>bbduk</code> (referenced in the <code>ref=</code> flag) that contains all of the Illumina TruSeq adapters. The sequences in the reference file, in addition to the given adapters and primers, will be removed from the sequences. Additionally, bbduk decontaminates sequences by matching kmers (aka reads of a specific length k) to reference genomes. If the kmers match the reference genome, then the kmer is kept. The longer the kmer, the higher the specificity - but there is a limit to this, seeing as the likelihood that long kmers are shared across multiple reads is unlikely. If your kmer length is too short, you could be keeping sequences that are adapters, primers, etc by accident (this is why using the literal sequence flag and the adapter reference file is helpful in <code>bbduk</code>).</p>
+<p>Below the shell script is a description of all of the flags used by <code>bbduk</code> and exactly what they mean. For more information on the <code>bbduk</code> flags, please see the <code>bbduk</code> <a href="https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbduk-guide/">documentation</a>.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">path</span><span class="op">=</span>/path/to/sequences/here <span class="co"># replace with the path to your files</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># my sequence files are in $path/16S_Seqs/ -- see for loop below</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -698,7 +698,7 @@ Figure 3: eestats Report Example
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="va">f</span><span class="op">=</span><span class="va">$(</span><span class="fu">basename</span> <span class="va">$i)</span></span>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="va">SAMPLE</span><span class="op">=</span><span class="va">${f</span><span class="op">%</span>_R<span class="pp">*</span><span class="va">}</span></span>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="ex">bbduk.sh</span> <span class="at">-Xmx10g</span> in1=<span class="va">${path}</span>/16S_Seqs/<span class="va">${SAMPLE}</span>_R1.fastq in2=<span class="va">${path}</span>/16S_Seqs/<span class="va">${SAMPLE}</span>_R2.fastq out1=<span class="va">${path}</span>/Trimmed_Seqs/16S_Trimmed/<span class="va">${SAMPLE}</span>_R1_clean.fastq out2=<span class="va">${path}</span>/Trimmed_Seqs/16S_Trimmed/<span class="va">${SAMPLE}</span>_R2_clean.fastq literal=TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG,GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG ref=/bigdata/aronsonlab/shared/bbmap_resources/adapters.fa rcomp=t ktrim=r k=23 maq=10 minlength=200 mink=11 hdist=1 tpe tbo</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="ex">bbduk.sh</span> <span class="at">-Xmx10g</span> in1=<span class="va">${path}</span>/16S_Seqs/<span class="va">${SAMPLE}</span>_R1.fastq in2=<span class="va">${path}</span>/16S_Seqs/<span class="va">${SAMPLE}</span>_R2.fastq out1=<span class="va">${path}</span>/Trimmed_Seqs/16S_Trimmed/<span class="va">${SAMPLE}</span>_R1_clean.fastq out2=<span class="va">${path}</span>/Trimmed_Seqs/16S_Trimmed/<span class="va">${SAMPLE}</span>_R2_clean.fastq literal=TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG,GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG ref=/bigdata/aronsonlab/shared/bbmap_resources/adapters.fa rcomp=t ktrim=r k=23 maq=10 minlength=200 mink=13 hdist=1 tpe tbo</span>
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
 <span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
@@ -1785,6 +1785,7 @@ Figure 17b: Redundancy Analysis of Clear Cut Soil samples w/ <code>ggplot2</code
 ## Running under: macOS Big Sur 10.16
 ## 
 ## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
 ## LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
 ## 
 ## locale:
@@ -1793,14 +1794,12 @@ Figure 17b: Redundancy Analysis of Clear Cut Soil samples w/ <code>ggplot2</code
 ## attached base packages:
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
-## other attached packages:
-## [1] rmarkdown_2.11
-## 
 ## loaded via a namespace (and not attached):
-##  [1] packrat_0.7.0   digest_0.6.29   R6_2.5.1        jsonlite_1.7.2  magrittr_2.0.1 
-##  [6] evaluate_0.14   stringi_1.7.6   rlang_0.4.12    jquerylib_0.1.4 bslib_0.3.1    
-## [11] tools_4.0.5     stringr_1.4.0   tinytex_0.35    xfun_0.28       yaml_2.2.1     
-## [16] fastmap_1.1.0   compiler_4.0.5  htmltools_0.5.2 knitr_1.36      sass_0.4.0</code></pre>
+##  [1] digest_0.6.29   R6_2.5.1        jsonlite_1.7.2  magrittr_2.0.1 
+##  [5] evaluate_0.14   rlang_0.4.12    stringi_1.7.6   jquerylib_0.1.4
+##  [9] bslib_0.3.1     rmarkdown_2.11  tools_4.0.5     stringr_1.4.0  
+## [13] xfun_0.28       yaml_2.2.1      fastmap_1.1.0   compiler_4.0.5 
+## [17] htmltools_0.5.2 knitr_1.36      sass_0.4.0</code></pre>
 </div>
 <div id="about-me" class="section level1" number="7">
 <h1><span class="header-section-number">7</span> About Me</h1>
