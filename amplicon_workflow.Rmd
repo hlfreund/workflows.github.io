@@ -235,7 +235,7 @@ The following image shows a sample eestats2 report. For this specific sample, th
 <div align="center">Figure 3: eestats Report Example</div></br>
 For more information on the `eestats2` programs by [USEARCH](https://www.drive5.com/usearch/), please read the documentation [here](https://www.drive5.com/usearch/manual/cmd_fastq_eestats2.html).
 
-## Trim sequences and cut adapters, primers, etc
+## Decontaminate & Trim sequences and cut adapters, primers, etc
 There are plenty of programs out there that can be used for trimming, and the following three are the most popular for amplicon analyses: [`cutadapt`](https://cutadapt.readthedocs.io/en/stable/), [`trimmomatic`](http://www.usadellab.org/cms/?page=trimmomatic), and [`bbduk`](https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbduk-guide/) [@Bushnell]. All of these programs are reputable, but I personally like the `bbduk`, and will use this tool for trimming and adapter removal. 
 
 Before I trim my sequences, I refer to the FastQC reports to find out exactly which adapters I should remove from my sequences. For example, when looking at the adapter content portion of the FastQC report above, I can see that the Nextera Transposase Sequence is still present in that particular sample. Thankfully Illumina shares their adapter sequences on their [website](https://support-docs.illumina.com/SHARE/AdapterSeq/Content/SHARE/AdapterSeq/AdapterSequencesIntro.htm), allowing us to easily find common adapters in sequences, like the [Nextera Transposase Sequence](https://support-docs.illumina.com/SHARE/AdapterSeq/Content/SHARE/AdapterSeq/Nextera/SequencesNXTILMPrepAndPCR.htm) for example.
@@ -244,9 +244,9 @@ I also know that with the sequences I am analyzing, the PCR primers are still at
 
 It is recommended to check the overrepresented sequences from the FastQC report to see if there are contaminating sequences present in your data. I suggest taking the most frequent overrepresented sequence and running it through [BLASTn](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&BLAST_SPEC=GeoBlast&PAGE_TYPE=BlastSearch) if the source of this overrepresented sequence says "No Hit" (meaning that FastQC cannot attribute this sequence to its list of adapter sequences). If the sequence comes up as a contaminant (i.e., a different gene than the amplicon you're looking at) or adapter/primer of some kind, you can add this to the `literal=` flag in `bbduk` to remove the contaminant.
 
-In addition to removing adapter and primer sequences using the  the `literal=` flag, I also include a reference file provided by `bbduk` (referenced in the `ref=` flag) that contains all of the Illumina TruSeq adapters. The sequences in the reference file, in addition to the given adapters and primers, will be removed from the sequences. Below the shell script is a description of all of the flags used by `bbduk` and exactly what they mean.
+In addition to removing adapter and primer sequences using the  the `literal=` flag, I also include a reference file provided by `bbduk` (referenced in the `ref=` flag) that contains all of the Illumina TruSeq adapters. The sequences in the reference file, in addition to the given adapters and primers, will be removed from the sequences. Additionally, bbduk decontaminates sequences by matching kmers (aka reads of a specific length k) to reference genomes. If the kmers match the reference genome, then the kmer is kept. The longer the kmer, the higher the specificity - but there is a limit to this, seeing as the likelihood that long kmers are shared across multiple reads is unlikely. If your kmer length is too short, you could be keeping sequences that are adapters, primers, etc by accident (this is why using the literal sequence flag and the adapter reference file is helpful in `bbduk`). 
 
-For more information on the `bbduk` flags, please see the `bbduk` [documentation](https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbduk-guide/). 
+Below the shell script is a description of all of the flags used by `bbduk` and exactly what they mean. For more information on the `bbduk` flags, please see the `bbduk` [documentation](https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbduk-guide/). 
 ```{bash bbduk_trim, eval=FALSE}
 path=/path/to/sequences/here # replace with the path to your files
 # my sequence files are in $path/16S_Seqs/ -- see for loop below
@@ -264,7 +264,7 @@ do
     f=$(basename $i)
     SAMPLE=${f%_R*}
     
-    bbduk.sh -Xmx10g in1=${path}/16S_Seqs/${SAMPLE}_R1.fastq in2=${path}/16S_Seqs/${SAMPLE}_R2.fastq out1=${path}/Trimmed_Seqs/16S_Trimmed/${SAMPLE}_R1_clean.fastq out2=${path}/Trimmed_Seqs/16S_Trimmed/${SAMPLE}_R2_clean.fastq literal=TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG,GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG ref=/bigdata/aronsonlab/shared/bbmap_resources/adapters.fa rcomp=t ktrim=r k=23 maq=10 minlength=200 mink=11 hdist=1 tpe tbo
+    bbduk.sh -Xmx10g in1=${path}/16S_Seqs/${SAMPLE}_R1.fastq in2=${path}/16S_Seqs/${SAMPLE}_R2.fastq out1=${path}/Trimmed_Seqs/16S_Trimmed/${SAMPLE}_R1_clean.fastq out2=${path}/Trimmed_Seqs/16S_Trimmed/${SAMPLE}_R2_clean.fastq literal=TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG,GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG ref=/bigdata/aronsonlab/shared/bbmap_resources/adapters.fa rcomp=t ktrim=r k=23 maq=10 minlength=200 mink=13 hdist=1 tpe tbo
     
 done
 
