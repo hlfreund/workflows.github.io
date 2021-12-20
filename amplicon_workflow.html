@@ -508,8 +508,9 @@ htmltools::img(src = knitr::image_uri("mylogo.png"),
 <h1><span class="header-section-number">1</span> Background</h1>
 <p>This is a tutorial on how to process your 16S ITS1/ITS2 amplicon sequences and identify the taxonomic identification of the ASVs (i.e., amplicon sequence variants, also known as zOTUs for zero OTUs or ESVs for exact sequence variants) in your sequence data.</p>
 <p>To create this tutorial, I have assembled scripts I’ve used to analyze 16S data provided by Dr. Emma Aronson’s lab. The data I am working with to create this workflow comes from a project that examined soil microbial community composition in Mount Saint Helens. The target region was the V4 region within the 16S gene, and sequencing was performed with an Illumina MiSeq (2x300).</p>
-<p><strong>You can find all of the scripts used in this workflow in this <a href="https://github.com/hlfreund/Amplicon_Sequencing_Worfklow">GitHub repository</a> or you can download it from SourceForge, which is linked in the <a href="#about-me">About Me</a> section.</strong></p>
 <p>This tutorial would not have been possible without <a href="https://callahanlab.cvm.ncsu.edu/">Dr. Benjamin Callahan’s</a> <code>DADA2</code> <a href="https://github.com/benjjneb/dada2">program</a> <span class="citation">(Callahan et al. 2016)</span> and <a href="https://benjjneb.github.io/dada2/tutorial.html">tutorials</a>. Additionally, I would like to especially thank <a href="https://astrobiomike.github.io/research/">Dr. Mike Lee</a> for his guidance, his patience, and his Happy Belly Bioinformatics tutorial called <a href="https://astrobiomike.github.io/amplicon/dada2_workflow_ex#removing-likely-contaminants"><strong>Amplicon Analysis</strong></a> tutorial <span class="citation">(Lee 2019)</span>.</p>
+<p><strong>You can find all of the scripts used in this workflow in this <a href="https://github.com/hlfreund/Amplicon_Sequencing_Worfklow">GitHub repository</a> or you can download it from SourceForge, which is linked in the <a href="#about-me">About Me</a> section.</strong></p>
+<p><strong>If you do use this workflow, please cite this using the DOI, which is included in the <a href="#about-me">About Me</a> section</strong></p>
 <div id="considerations-before-you-begin" class="section level2" number="1.1">
 <h2><span class="header-section-number">1.1</span> Considerations before you begin</h2>
 <p>I was able to analyze these sequences on a High Performance Computing cluster (HPCC) that uses a Slurm scheduler. The minimum amount of total memory I used (not per CPU, but overall) for each step in this workflow (i.e., each step as a separate ‘job’ via Slurm) was 400GB. Having enough memory is essential to running most of these programs, so please keep this in mind before embarking on this workflow!</p>
@@ -1785,6 +1786,7 @@ Figure 17b: Redundancy Analysis of Clear Cut Soil samples w/ <code>ggplot2</code
 ## Running under: macOS Big Sur 10.16
 ## 
 ## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
 ## LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
 ## 
 ## locale:
@@ -1794,10 +1796,11 @@ Figure 17b: Redundancy Analysis of Clear Cut Soil samples w/ <code>ggplot2</code
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] packrat_0.7.0   digest_0.6.29   R6_2.5.1        jsonlite_1.7.2  magrittr_2.0.1  evaluate_0.14  
-##  [7] stringi_1.7.6   rlang_0.4.12    jquerylib_0.1.4 bslib_0.3.1     rmarkdown_2.11  tools_4.0.5    
-## [13] stringr_1.4.0   xfun_0.28       yaml_2.2.1      fastmap_1.1.0   compiler_4.0.5  htmltools_0.5.2
-## [19] knitr_1.36      sass_0.4.0</code></pre>
+##  [1] digest_0.6.29   R6_2.5.1        jsonlite_1.7.2  magrittr_2.0.1 
+##  [5] evaluate_0.14   rlang_0.4.12    stringi_1.7.6   jquerylib_0.1.4
+##  [9] bslib_0.3.1     rmarkdown_2.11  tools_4.0.5     stringr_1.4.0  
+## [13] xfun_0.28       yaml_2.2.1      fastmap_1.1.0   compiler_4.0.5 
+## [17] htmltools_0.5.2 knitr_1.36      sass_0.4.0</code></pre>
 </div>
 <div id="about-me" class="section level1" number="7">
 <h1><span class="header-section-number">7</span> About Me</h1>
@@ -1808,6 +1811,9 @@ Figure 17b: Redundancy Analysis of Clear Cut Soil samples w/ <code>ggplot2</code
 </div>
 <center>
 <a href="https://sourceforge.net/projects/amplicon-sequencing-worfklow/files/latest/download"><img src="https://a.fsdn.com/con/app/sf-download-button" alt="Download AmpliconSequencingWorfklow" /></a>
+</center>
+<center>
+<a href="https://zenodo.org/badge/latestdoi/414102702"><img src="https://zenodo.org/badge/414102702.svg" alt="DOI" /></a>
 </center>
 </div>
 <div id="references" class="section level1 unnumbered">
