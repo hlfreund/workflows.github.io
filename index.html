@@ -9,12 +9,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Author: Hannah Freund (hfreu002@ucr.edu)" />
+<meta name="author" content="Author: Linton Freund (hfreu002@ucr.edu)" />
 
 
 <title>Sequencing &amp; Bioinformatics Workflows</title>
 
-<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -55,6 +55,7 @@
 
 
 
+
 <style type = "text/css">
 .main-container {
   max-width: 940px;
@@ -75,6 +76,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -132,11 +136,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -165,8 +173,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -174,16 +182,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -303,7 +304,7 @@ div.tocify {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -316,7 +317,7 @@ div.tocify {
   <a href="index.html">Home</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Workflows
      
     <span class="caret"></span>
@@ -342,7 +343,7 @@ div.tocify {
 <div id="header">
 
 <div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
 <ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
 <li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
 <li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
@@ -351,9 +352,11 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Sequencing &amp; Bioinformatics Workflows</h1>
-<h4 class="author">Author: Hannah Freund (<a href="mailto:hfreu002@ucr.edu" class="email">hfreu002@ucr.edu</a>)</h4>
-<h4 class="date">Last update: 20 December, 2021</h4>
+<h1 class="title toc-ignore">Sequencing &amp; Bioinformatics
+Workflows</h1>
+<h4 class="author">Author: Linton Freund (<a
+href="mailto:hfreu002@ucr.edu" class="email">hfreu002@ucr.edu</a>)</h4>
+<h4 class="date">Last update: 18 August, 2023</h4>
 
 </div>
 
@@ -376,12 +379,23 @@ htmltools::img(src = knitr::image_uri("mylogo.png"),
                alt = 'logo', 
                style = 'position:absolute; top:0; center:0; padding:10px;')
 -->
-<p>Hello, and welcome to my page that is all about sequencing, bioinformatics, data science,and all things ’omics!</p>
+<p>Hello, and welcome to my page that is all about sequencing,
+bioinformatics, data science,and all things ’omics!</p>
 <div id="my-background" class="section level1">
 <h1>My Background</h1>
-<p>My name is Hannah Freund, my pronouns are they/them, and I am a PhD Student at the University of California Riverside. I am in the <a href="https://ggb.ucr.edu/">Genetics, Genomics, and Bioinformatics PhD Program</a> and a member of Dr. Emma Aronson’s lab.</p>
-<p>I earned my Masters in Biology from California State University Long Beach in 2019. As a member of The Bioinformatics Lab led by Dr. Renaud Berlemont, I used shotgun metagenomic sequencing and bioinformatic tools to examine the gut microbial community from cartilaginous fishes. You can find my masters thesis <a href="https://www.proquest.com/dissertations-theses/insights-into-structure-function-gut-metagenome/docview/2294094842/se-2">here</a>.</p>
-<p>I am currently focusing on the characterization of aeolian (i.e. wind-driven) microbiomes as well as microbiome-microbiome interactions within the Salton Sea, CA.</p>
+<p>My name is Linton Freund, my pronouns are they/them, and I am a PhD
+Candidate at the University of California Riverside. I am in the <a
+href="https://ggb.ucr.edu/">Genetics, Genomics, and Bioinformatics PhD
+Program</a> and a member of Dr. Emma Aronson’s lab.</p>
+<p>I earned my Masters in Biology from California State University Long
+Beach in 2019. As a member of The Bioinformatics Lab led by Dr. Renaud
+Berlemont, I used shotgun metagenomic sequencing and bioinformatic tools
+to examine the gut microbial community from cartilaginous fishes. You
+can find my masters thesis <a
+href="https://www.proquest.com/dissertations-theses/insights-into-structure-function-gut-metagenome/docview/2294094842/se-2">here</a>.</p>
+<p>I am currently focusing on the characterization of soil, water, and
+aeolian (i.e. wind-driven) microbiomes as well as microbiome-microbiome
+interactions within the Salton Sea, CA.</p>
 <center>
 <img src="workflow_biorender.png" />
 </center>
@@ -389,40 +403,62 @@ htmltools::img(src = knitr::image_uri("mylogo.png"),
 An Example of My Current Project’s Workflow
 </div>
 <p></br></p>
-<p>For some personal information about me, please feel free to see my profile on <a href="https://500queerscientists.com/hannah-freund/">500 Queer Scientists</a>.</p>
+<p>For some personal information about me, please feel free to see my
+profile on <a href="https://500queerscientists.com/Linton-freund/">500
+Queer Scientists</a>.</p>
 </div>
 <div id="helpful-resources" class="section level1">
 <h1>Helpful Resources</h1>
-<p>Here are some of my favorite resources for learning more about coding, bioinformatics, statistics, and sequence analysis.</p>
+<p>Here are some of my favorite resources for learning more about
+coding, bioinformatics, statistics, and sequence analysis.</p>
 <ul>
-<li><a href="https://astrobiomike.github.io/">Happy Belly Bioinformatics</a></li>
-<li><a href="https://benjjneb.github.io/dada2/tutorial.html">DADA2 Pipeline Tutorial</a></li>
-<li><a href="https://join.slack.com/t/microbialomics/shared_invite/zt-hewufeet-RTgCOf8TnfCUbIP2_GdQUg">Dr. Mike Lee’s Microbial Omics Slack Channel</a></li>
+<li><a href="https://astrobiomike.github.io/">Happy Belly
+Bioinformatics</a></li>
+<li><a href="https://benjjneb.github.io/dada2/tutorial.html">DADA2
+Pipeline Tutorial</a></li>
+<li><a
+href="https://join.slack.com/t/microbialomics/shared_invite/zt-hewufeet-RTgCOf8TnfCUbIP2_GdQUg">Dr. Mike
+Lee’s Microbial Omics Slack Channel</a></li>
 <li><a href="https://www.biostars.org/">Biostars</a></li>
 <li><a href="https://stackoverflow.com/">Stackoverflow</a></li>
-<li><a href="https://happygitwithr.com/">Happy Git and Github for the userR</a></li>
+<li><a href="https://happygitwithr.com/">Happy Git and Github for the
+userR</a></li>
 <li><a href="https://r4ds.had.co.nz/">R for Data Science</a></li>
-<li><a href="https://www.emilyzabor.com/tutorials/rmarkdown_websites_tutorial.html">R Markdown Website Tutorial</a></li>
-<li><a href="https://whitlockschluter.zoology.ubc.ca/r-code">The Analysis of Biological Data w/ R</a></li>
-<li><a href="http://www.sthda.com/english/wiki/be-awesome-in-ggplot2-a-practical-guide-to-be-highly-effective-r-software-and-data-visualization#geom_text-textual-annotations">Be awesome in ggplot2</a></li>
-<li><a href="https://swcarpentry.github.io/python-novice-inflammation/setup.html">Software Carpentry’s Intro to Python</a></li>
-<li><a href="http://mywiki.wooledge.org/BashGuide/CommandsAndArguments">Bash Guide: Commands &amp; Arguments</a></li>
-<li><a href="https://devhints.io/bash">Bash Scripting Cheatsheet</a></li>
-<li><a href="https://www.youtube.com/c/joshstarmer">StatQuest with Josh Starmer</a></li>
+<li><a
+href="https://www.emilyzabor.com/tutorials/rmarkdown_websites_tutorial.html">R
+Markdown Website Tutorial</a></li>
+<li><a href="https://whitlockschluter.zoology.ubc.ca/r-code">The
+Analysis of Biological Data w/ R</a></li>
+<li><a
+href="http://www.sthda.com/english/wiki/be-awesome-in-ggplot2-a-practical-guide-to-be-highly-effective-r-software-and-data-visualization#geom_text-textual-annotations">Be
+awesome in ggplot2</a></li>
+<li><a
+href="https://swcarpentry.github.io/python-novice-inflammation/setup.html">Software
+Carpentry’s Intro to Python</a></li>
+<li><a
+href="http://mywiki.wooledge.org/BashGuide/CommandsAndArguments">Bash
+Guide: Commands &amp; Arguments</a></li>
+<li><a href="https://devhints.io/bash">Bash Scripting
+Cheatsheet</a></li>
+<li><a href="https://www.youtube.com/c/joshstarmer">StatQuest with Josh
+Starmer</a></li>
 </ul>
 </div>
-<div id="awesome-organizations-to-join-andor-support" class="section level1">
+<div id="awesome-organizations-to-join-andor-support"
+class="section level1">
 <h1>Awesome Organizations to Join and/or Support</h1>
 <ul>
 <li><a href="https://www.blackgirlscode.com/">Black Girls Code</a></li>
-<li><a href="https://www.widsconference.org/">Women in Data Science</a></li>
+<li><a href="https://www.widsconference.org/">Women in Data
+Science</a></li>
 <li><a href="https://rladies.org/">R-Ladies Global</a></li>
 </ul>
 <div align="center">
 <strong>Thanks for stopping by!</strong>
 </div>
 <center>
-<a href="https://hlfreund.github.io/"><img src="amplicon_workflow/mylogo.png" alt="website" /></a>
+<a href="https://hlfreund.github.io/"><img
+src="amplicon_workflow/mylogo.png" alt="website" /></a>
 </center>
 </div>
 

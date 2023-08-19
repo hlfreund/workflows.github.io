@@ -1,7 +1,7 @@
 ---
 title: "Sequencing & Bioinformatics Workflows"
 permalink: /
-author: "Author: Hannah Freund (hfreu002@ucr.edu)"
+author: "Author: Linton Freund (hfreu002@ucr.edu)"
 date: "Last update: `r format(Sys.time(), '%d %B, %Y')`"
 output:
   html_document:
@@ -43,18 +43,18 @@ Hello, and welcome to my page that is all about sequencing, bioinformatics, data
 
 # My Background
 
-My name is Hannah Freund, my pronouns are they/them, and I am a PhD Student at the University of California Riverside. I am in the [Genetics, Genomics, and Bioinformatics PhD Program](https://ggb.ucr.edu/) and a member of Dr. Emma Aronson's lab.
+My name is Linton Freund, my pronouns are they/them, and I am a PhD Candidate at the University of California Riverside. I am in the [Genetics, Genomics, and Bioinformatics PhD Program](https://ggb.ucr.edu/) and a member of Dr. Emma Aronson's lab.
 
 I earned my Masters in Biology from California State University Long Beach in 2019. As a member of The Bioinformatics Lab led by Dr. Renaud Berlemont, I used shotgun metagenomic sequencing and bioinformatic tools to examine the gut microbial community from cartilaginous fishes. You can find my masters thesis [here](https://www.proquest.com/dissertations-theses/insights-into-structure-function-gut-metagenome/docview/2294094842/se-2).
 
-I am currently focusing on the characterization of aeolian (i.e. wind-driven) microbiomes as well as microbiome-microbiome interactions within the Salton Sea, CA.
+I am currently focusing on the characterization of soil, water, and aeolian (i.e. wind-driven) microbiomes as well as microbiome-microbiome interactions within the Salton Sea, CA.
 
 <center>
 ![](workflow_biorender.png)
 </center>
 <div align="center">An Example of My Current Project's Workflow</div></br>
 
-For some personal information about me, please feel free to see my profile on [500 Queer Scientists](https://500queerscientists.com/hannah-freund/).
+For some personal information about me, please feel free to see my profile on [500 Queer Scientists](https://500queerscientists.com/Linton-freund/).
 
 # Helpful Resources
 
