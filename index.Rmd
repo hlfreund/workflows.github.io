@@ -54,7 +54,7 @@ I am currently focusing on the characterization of soil, water, and aeolian (i.e
 </center>
 <div align="center">An Example of My Current Project's Workflow</div></br>
 
-For some personal information about me, please feel free to see my profile on [500 Queer Scientists](https://500queerscientists.com/Linton-freund/).
+For some personal information about me, please feel free to see my profile on [500 Queer Scientists](https://500queerscientists.com/hannah-freund/?ids=[5381]).
 
 # Helpful Resources
 
@@ -78,13 +78,14 @@ Here are some of my favorite resources for learning more about coding, bioinform
 # Awesome Organizations to Join and/or Support
 
 * [Black Girls Code](https://www.blackgirlscode.com/)
+* [Out in STEM](https://ostem.org/)
+* [International Society of Nonbinary Scientists](https://isnbs.org/)
 * [Women in Data Science](https://www.widsconference.org/)
 * [R-Ladies Global](https://rladies.org/)
 
-
 <div align="center">**Thanks for stopping by!**</div>
 <center>
-[![website](amplicon_workflow/mylogo.png)](https://hlfreund.github.io/)
+[![website](mylogo.png)](https://hlfreund.github.io/)
 </center>
 
 

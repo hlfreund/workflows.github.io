@@ -47,11 +47,11 @@ knitr::opts_chunk$set(echo = TRUE)
 # Background
 This is a tutorial on how to process your 16S ITS1/ITS2 amplicon sequences and identify the taxonomic identification of the ASVs (i.e., amplicon sequence variants, also known as zOTUs for zero OTUs or ESVs for exact sequence variants) in your sequence data.
 
-To create this tutorial, I have assembled scripts I've used to analyze 16S data provided by Dr. Emma Aronson's lab. The data I am working with to create this workflow comes from a project that examined soil microbial community composition in Mount Saint Helens. The target region was the V4 region within the 16S gene, and sequencing was performed with an Illumina MiSeq (2x300). 
+To create this tutorial, I have assembled scripts I've used to analyze 16S amplicon sequence data provided by Dr. Emma Aronson's lab. The data I am working with to create this workflow comes from a project that examined soil microbial community composition in Mount Saint Helens. The target region was the V4 region within the 16S gene, and sequencing was performed with an Illumina MiSeq (2x300). 
 
 This tutorial would not have been possible without [Dr. Benjamin Callahan's](https://callahanlab.cvm.ncsu.edu/) `DADA2` [program](https://github.com/benjjneb/dada2) [@Callahan2016] and [tutorials](https://benjjneb.github.io/dada2/tutorial.html). Additionally, I would like to especially thank [Dr. Mike Lee](https://astrobiomike.github.io/research/) for his guidance, his patience, and his Happy Belly Bioinformatics tutorial called [**Amplicon Analysis**](https://astrobiomike.github.io/amplicon/dada2_workflow_ex#removing-likely-contaminants) tutorial [@Lee2019].
 
-**You can find all of the scripts used in this workflow in this [GitHub repository](https://github.com/hlfreund/Amplicon_Sequencing_Worfklow) or you can download it from SourceForge, which is linked in the [About Me](#about-me) section.** 
+**You can find all of the scripts used in this workflow in this [GitHub repository](https://github.com/hlfreund/Amplicon_Sequencing_Worfklow) or you can download it from SourceForge or Zenodo, which is linked in the [About Me](#about-me) section.** 
 
 **If you do use this workflow, please cite this using the DOI, which is included in the [About Me](#about-me) section**
 
@@ -1547,9 +1547,9 @@ Thank you for following along!
 sessionInfo()
 ```
 # About Me {#about-me}
-My name is Hannah and my pronouns are they/them. I am currently a PhD Student at UC Riverside in the [Genetics, Genomics, and Bioinformatics](https://ggb.ucr.edu/) PhD program and a member of Dr. Emma Aronson's lab.
+My name is Linton and my pronouns are they/them. I am currently a PhD Student at UC Riverside in the [Genetics, Genomics, and Bioinformatics](https://ggb.ucr.edu/) PhD program and a member of Dr. Emma Aronson's lab.
 
-If you have any questions regarding this workflow and the scripts I used, do not hesitate to contact [me](mailto:hfreu002@ucr.edu?subject=Amplicon Workflow). Or, if you'd like to talk bioinformatics and all things 'omics, I would love that too!
+If you have any questions regarding this workflow and the scripts I used, do not hesitate to contact [me](mailto:hannahfreund3@gmail.com?subject=Amplicon Workflow). Or, if you'd like to talk bioinformatics and all things 'omics, I would love that too!
 
 <div align="center">**Thank you so much for checking out my workflow!**</div>
 
@@ -1560,7 +1560,7 @@ If you have any questions regarding this workflow and the scripts I used, do not
 
 
 <center>
-[![DOI](https://zenodo.org/badge/414102702.svg)](https://zenodo.org/badge/latestdoi/414102702)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8264886.svg)](https://doi.org/10.5281/zenodo.8264886)
 </center>
 
 # References
