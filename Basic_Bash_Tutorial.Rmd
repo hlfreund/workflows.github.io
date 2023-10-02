@@ -37,10 +37,17 @@ $ Rscript -e "rmarkdown::render('Basic_Bash_Tutorial.Rmd', output_format='html_d
 knitr::opts_chunk$set(echo = TRUE)
 ```
 # Welcome
-This tutorial is a collection of helpful bash commands as well as some different loops that you can use for your own scripts. These tricks are things I have picked up along the way, and admittedly, things I often forget if I am not using them. If you are overwhelmed by this, or forget certain things, do not stress! Google is your best friend when it comes to coding, and you can always find help that way.
+This tutorial is a collection of helpful Bash commands as well as some different loops that you can use for your own scripts. These tricks are things I have picked up along the way, and admittedly, things I often forget if I am not using them. If you are overwhelmed by this, or forget certain things, do not stress! Google is your best friend when it comes to coding, and you can always find help that way.
 
 This tutorial uses two text files (XCZO_MapFile_copy.txt, codon_table_copy.txt) that you need to follow along. 
-However, you can use these commands with any and all files at your disposal - just be sure not to delete any of your files without triple checking, or making a copy.
+However, you can use these commands with any and all files at your disposal - just be sure not to delete any of your files without triple checking, or making a copy!
+
+## What is Bash?
+Simply, bash is a coding language that we can use to interact with our operating system, particularly a Unix-based operating system (OS). Unix and Linux operating systems are similar, so you can use bash to interact with these types of OS.
+
+We use bash in the **shell** or **command-line interpreter** to tell the computer what we need it to do. On a Mac, we usually use the Terminal ap as our shell, whereas on Windows you can use the command prompt app as your shell. 
+
+For more information on Bash, check out its Wiki page here[https://en.wikipedia.org/wiki/Bash_(Unix_shell)] and look into this helpful bash/linux tutorial here[https://linuxconfig.org/bash-scripting-tutorial-for-beginners].
 
 # A Bash Crash Course
 `pwd` will print the directory we are currently in.
@@ -182,7 +189,5 @@ sessionInfo()
 My name is Linton and my pronouns are they/them. I am currently a PhD Student at UC Riverside in the [Genetics, Genomics, and Bioinformatics](https://ggb.ucr.edu/) PhD program and a member of [Dr. Emma Aronson's lab](https://profiles.ucr.edu/app/home/profile/emmaa). 
 
 If you have any questions regarding this workflow and the scripts I used, do not hesitate to contact [me](mailto:hfreu002@ucr.edu?subject=Basic Bash Tutorial). Or, if you'd like to talk bioinformatics and all things 'omics, I would love that too!
-
-If you'd like to learn more about my research background and check out some of my other work, feel free to visit my [website](https://hlfreund.github.io/). It is a work in progress, just fyi!
 
 <div align="center">**Thank you so much for checking out my tutorial! Happy coding!! **</div>
