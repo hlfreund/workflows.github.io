@@ -56,14 +56,29 @@ Let's start with some simple basics and work our way up! Just to reiterate, thes
 `pwd` will print the directory we are currently in.
 
 `ls` prints everything that is in our current directory. Find more options for `ls` [here](https://linux.die.net/man/1/ls).
-```{bash where_what, eval=FALSE}
+```{bash where_are_you, eval=FALSE}
 pwd # print current working directory, aka where you are in your computer
+```
+<center>
+![](Basic_Bash_Tutorial_Files/pwd_example.png)
+</center>
+<div align="center">Figure 1a: Example of `pwd` output>
 
+```{ bash listing,eval=FALSE}
 ls -l # list items in your current directory in a long list format
 ls -ltr # list items in your current directory in long list format, reverse sort by time
 ```
+<center>
+![](Basic_Bash_Tutorial_Files/ls_l_example.png)
+</center>
+<div align="center">Figure 1b: Example of `ls -l` output>
 
-Let's make a directory and get into that directory. From there, we can create a text file and read this text file in the terminal.
+<center>
+![](Basic_Bash_Tutorial_Files/ls_ltr_example.png)
+</center>
+<div align="center">Figure 1b: Example of `ls -ltr` output>
+
+Let's make a directory called `test_dir` and get into that directory. From there, we can create a text file called `test.txt` and read this text file in the terminal.
 ```{bash make_read_remove, eval=FALSE}
 mkdir test_dir # mkdir creates a directory
 cd test_dir # cd stands for change directory
@@ -73,6 +88,10 @@ nano test.txt # nano is a command used to create OR edit a file, in this case we
 cat test.txt # cat is how to read a file
 rm test.txt # how to delete a file(s) from your directory
 ```
+<center>
+![](Basic_Bash_Tutorial_Files/nano_example.png)
+</center>
+<div align="center">Figure 2: `nano` File edit screen for file called "test.txt">
 
 To go back to your previous directory in your **path** (aka folder/you/are/in), do the following
 ```{bash cd_bac, eval=FALSE}
@@ -80,41 +99,66 @@ cd .. # change directory to previous directory in path
 pwd
 ```
 
-Now let's try some other commands we can use to seeeing what is in a file.
-```{bash look_at_files, eval=FALSE}
+Now let's try some other commands we can use to seeing what is in a file. `head` can show us the first 10 lines of a file, and `tail` can show us the last 10 lines of a file. 
+```{bash heads_tails, eval=FALSE}
 head XCZO_MapFile_copy.txt # read first 10 lines of file
 head n -15 XCZO_MapFile_copy.txt # read first 15 lines of file
 tail XCZO_MapFile_copy.txt # read last 10 lines of file; uses -n in same way that head does
+```
+<center>
+![](Basic_Bash_Tutorial_Files/head_xczo_file_example.png)
+</center>
+<div align="center">Figure 3: Head of "XCZO_MapFile_copy.txt". NOTE:Does not include entire file in image.>
 
+We can also use the `more` function to read files page by page, using the *spacebar* to go to each page. Or, we can use the `less` function to read the files line by line, using the up/down arrows to navigate. These functions are very similar, however, less is a bit faster because it does not load the entire file as you read it. 
+```{bash more_less_files, eval=FALSE}
 more XCZO_MapFile_copy.txt # read file by page. Use "space" to go to next page.
+# to quit, just type "q" and enter
+
 less XCZO_MapFile_copy.txt # read file by line. Use arrows to navigate up or down the page. Has more options than more
+# to quit, just type "q" and enter
 ```
 
-We can also move the file around or rename the file, and make a copy of this file.
+We can also move the file around or rename the file with the `mv` command, and make a copy of this file using the `cp` command. 
 ```{bash move_move, eval=FALSE}
 mkdir newdir # we will move our file into this directory
 mv XCZO_MapFile_copy.txt newdir # move file into newdir
 
 cd newdir
-mv XCZO_MapFile_copy.txt XCZO_Map.txt # rename file with mv
+ls -ltr # what is in our directory?
+
+mv XCZO_MapFile_copy.txt XCZO_Map.txt # rename file XCZO_MapFile_copy.txt to XCZO_Map.txt with mv
+ls -ltr # sanity check - always good practice to see if your previous step worked!
 cd ..
 
 cp newdir/XCZO_Map.txt . # copy file in newdir to current working directory, represented by "."
 cp newdir/* . # copy ALL files in newdir to current directory; "*" represents every file in newdir
+
+# sanity check - did our copy just work?
+cd newdir
+ls -ltr
+cd ..
 ```
 
 ## Loops
 
 These commands are great, but what if you need to do the same action on hundreds of files!? For example, what if you are reading a file of amplicon sequences and want to cound the number of sequences in each file, and save that information? That is when we can use the magic of loops in our scripts! Loops are not specific to bash, but you will find that a lot of languages (like R & Python) model their loop structures after the loops in bash. 
 
+All the helpful flowcharts included below for each loop type come from [ZenFlowchart](https://www.zenflowchart.com/blog/for-loop-flowchart).
+
 ### While Read Loops
 If we want to read every line in the file, we can create a `while loop` to run through each line of the file, and use the `echo` command to print out the contents of each line.
 
 The logic of the while loop is the following: while read x (line, string, etc), do x.
+<center>
+![](Basic_Bash_Tutorial_Files/while-loop-example.png)
+</center>
+<div align="center">Figure 4a: While Loop Flowchart. [source](https://www.zenflowchart.com/blog/for-loop-flowchart)>
+
 ```{bash while_echo, eval=FALSE}
 while read line
 do
-  echo $line
+  echo $line # prints every line, defined by $line variable
 done < codon_table_copy.txt # this is how we feed the input file into the while read loop
 ```
 
@@ -124,6 +168,11 @@ If we want to be just a tad fancy, we can use a `for loop` and the `echo` comman
 Another example of a regex is the `.`, which can indicate both our current working directory, characters we are editing, or as a period itself. 
 
 To review, the logic of the for loop is the following: for x (a file, a line, anything you want) in this, do the following. This will loop repeteadly until all of the actions in the for statement are done.
+<center>
+![](Basic_Bash_Tutorial_Files/for-loop-flowchart-example.png)
+</center>
+<div align="center">Figure 4b: For Loop Flowchart. [source](https://www.zenflowchart.com/blog/for-loop-flowchart)>
+
 ```{bash for_echo, eval=FALSE}
 for FILE in *; # for every FILE in our directory; "*" is a wildcard used to represent every thing
 do
@@ -138,19 +187,29 @@ done
 If we want to get a little fancier, we can use an `if else` loop to create directories. Personally, I really like using this trick when I want to make a directory, but I don't know if it already exists. The `!` is the same as "not" - so for the code  below, I am checking if the directory (specificed with -d argument) does NOT exist. 
 
 In summary, the if loop logic here is: if this directory does NOT exist, then make directory. Otherwise, the directory exists, and nothing is done by the loop.
+
+<center>
+![](Basic_Bash_Tutorial_Files/if-else-loop-example.png)
+</center>
+<div align="center">Figure 4c: If-Else Loop Flowchart. [source](https://www.zenflowchart.com/blog/for-loop-flowchart)>
+
 ```{bash if_else, eval=FALSE}
 if [[ ! -d ./testdir ]]; then
+  # [[ ! -d {dir} ]] --> checks if the directory dir does NOT exist
     mkdir testdir
 fi
 
 rm -r testdir # how to delete a directory - recursive removal
 ```
 
-## Grep 
+## Word Count & Grep 
 In scenarios when we have really long files, or are looking for specific information within or about the file, there are several commands we can use. `grep` is an extremely powerful way to find certain patterns in your files/directories. There is a `find` command in bash, but we will not go over that here.
+
+We can also use tools like `wc` to figure out how many words (or lines or other pieces of information) are in our file of interest.
 ```{bash grep_wc, eval=FALSE}
 wc codon_table_copy.txt # wc is the "word count" command
 ## for wc - first column shows line count, second column shows word count, third column shows character count
+
 wc -l codon_table_copy.txt # count number of lines in file
 
 grep Stop codon_table_copy.txt # find the Stop codons in the file
@@ -158,6 +217,10 @@ grep Stop codon_table_copy.txt | wc -l # find Stop codons, then count number of 
 
 ## | is a pipe that is used to string multiple commands together
 ```
+<center>
+![](Basic_Bash_Tutorial_Files/wc_grep_examples.png)
+</center>
+<div align="center">Figure 5a: Examples of `wc` and `grep` outputs.>
 
 We can also `sort` these files and pull out pieces of unique (`uniq`) information from said files, like unique gene IDs or protein names, etc. We can also be very specific as to where we search/sort by using the `cut` command to specify which sections/pieces we are cutting from. 
 ```{bash sort_cut_uniq, eval=FALSE}
@@ -173,22 +236,40 @@ cut -f3 codon_table_copy.txt | sort | uniq -c # cuts third field based on tab (\
 
 # cut can also cut fields based on any delimiter - the default delimiter is tab (\t)
 ```
+<center>
+![](Basic_Bash_Tutorial_Files/grep_sort_cut_examples.png)
+</center>
+<div align="center">Figure 5b: Examples of `grep`,`sort`, `cut`, and `uniq` outputs.>
 
-## Streamline Editor (aka sed)
-Finally, we can edit files using the transform command `tr` or the streamline editor command `sed`. Transform or `tr` is used to make small edits across the entire file - for example, if you wanted to delete all of the spaces from a file without replacing them, you can use transform. 
+## Transform and Streamline Editor (aka sed)
+Finally, we can edit files using the transform command `tr` or the streamline editor command `sed`. 
 
-`sed` is a lot more useful for editing and replacing, but it does have somewhat of a weird syntax. For more on `sed` and using `sed` with regular expressions, please read this [link](https://www.tutorialspoint.com/unix/unix-regular-expressions.htm).
-```{bash sed_tr, eval=FALSE}
+Transform or `tr` is used to make small edits across the entire file. For example, if you wanted to delete all of the spaces from a file, or if you wanted to switch all of your spaces to a tab, then you can use transform. 
+```{bash transform_ex, eval=FALSE}
 cp codon_table_copy.txt codons.txt # make a copy of codon file so we can edit this file without changing original copy
 head codons.txt # double check that this copy was successful by using head
 
-tr a-z A-Z < codons.txt # transforms all lowercase alphabetical characters to uppercase
+tr a-z A-Z < codons.txt # transforms all lower case alphabetical characters to upper case
+```
+<center>
+![](Basic_Bash_Tutorial_Files/tr_example.png)
+</center>
+<div align="center">Figure 6a: Example of `tr` output, where we converted all lower case letters to upper case.>
 
+`sed` is a lot more useful for editing and replacing, but it does have somewhat of a weird syntax. The syntax is **`s/old pattern/new pattern`**, where the old pattern is the one you are editing, and the new pattern is what you are replacing the old pattern with. 
+
+`sed` is extremely powerful but can get complicated rather quickly, so for more on `sed` and using `sed` with regular expressions, please read this [Tutorials Point link](https://www.tutorialspoint.com/unix/unix-regular-expressions.htm) and the [Geeks for Geeks Link](https://www.geeksforgeeks.org/sed-command-in-linux-unix-with-examples/).
+
+```{bash sed_ex, eval=FALSE}
 sed 's/\t/ /g' codons.txt # convert all \t to spaces with sed, so that now all fields or columns are separated by spaces and not tabs
 
 ## syntax is sed 's/original_pattern/replacement_pattern/g', where "g" stands for global editing,.
-### This meanss you can make these changes all throughout the file (hence it's global) rather than just making one or two edits in the file 
+### This means you can make these changes all throughout the file (hence it's global) rather than just making one or two edits in the file 
 ```
+<center>
+![](Basic_Bash_Tutorial_Files/sed_example.png)
+</center>
+<div align="center">Figure 6b: Example of `sed` output, where we changed all tabs to spaces.>
 
 # The End
 Thank you for following my basic Bash scripting tutorial! I hope it is rewarding and helpful. 
@@ -206,3 +287,7 @@ My name is Linton and my pronouns are they/them. I am currently a PhD Student at
 If you have any questions regarding this workflow and the scripts I used, do not hesitate to contact [me](mailto:hfreu002@ucr.edu?subject=Basic Bash Tutorial). 
 
 <div align="center">**Thank you so much for checking out my tutorial! Happy coding!! **</div>
+
+<center>
+![](Basic_Bash_Tutorial_Files/Bash_Logo_Colored.png)
+</center>
