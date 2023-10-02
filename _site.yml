@@ -1,4 +1,4 @@
-name: "Sequencing & Bioinformatics Workflows"
+name: "Sequencing & Bioinformatics Resources"
 navbar:
   title: "The Resources"
   left:
@@ -6,12 +6,12 @@ navbar:
       href: index.html
     - text: "Workflows"
       menu:
-        - text: "Amplicon Sequence Worfklow"
+        - text: "Amplicon Sequencing Worfklow"
           href: amplicon_workflow.html
           icon: fa-solid fa-dna
     - text: "Tutorials"
       menu:
-        - text: "Basic Bash Tutorial"
+        - text: "Bash Basics Tutorial"
           href: Basic_Bash_Tutorial.html
           icon: fa-solid fa-terminal
 output_dir: "."
