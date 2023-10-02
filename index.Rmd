@@ -50,7 +50,7 @@ My name is Linton Freund, my pronouns are they/them, and I am a PhD Candidate at
 
 I earned my Masters in Biology from California State University Long Beach in 2019. As a member of The Bioinformatics Lab led by Dr. Renaud Berlemont, I used shotgun metagenomic sequencing and bioinformatic tools to examine the gut microbial community from cartilaginous fishes. You can find my masters thesis [here](https://www.proquest.com/dissertations-theses/insights-into-structure-function-gut-metagenome/docview/2294094842/se-2).
 
-I am currently focusing on the characterization of soil, water, and aeolian (i.e. wind-driven) microbiomes as well as microbiome-microbiome interactions within the Salton Sea, CA.
+I am currently focusing on the characterization of soil, water, and aeolian (i.e. wind-driven dust) microbiomes as well as microbiome-microbiome interactions within the Salton Sea, CA. To learn more about this ecosystem and these microbiomes, please check out our literature review on the topic [here](https://escholarship.org/uc/item/8br2r9k9).
 
 <center>
 ![](workflow_biorender.png)
