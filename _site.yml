@@ -8,11 +8,11 @@ navbar:
       menu:
         - text: "Amplicon Sequence Worfklow"
           href: amplicon_workflow.html
-          icon: fal fa-bacteria
+          icon: fa-solid fa-dna
     - text: "Tutorials"
       menu:
-        - text: "Basic_Bash_Tutorial.html"
-          href: amplicon_workflow.html
+        - text: "Basic Bash Tutorial"
+          href: Basic_Bash_Tutorial.html
           icon: fa-solid fa-terminal
 output_dir: "."
 output:
