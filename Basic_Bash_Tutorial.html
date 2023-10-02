@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Author: Linton Freund (hfreu002@ucr.edu)" />
+
+
+<title>Basic Bash Tutorial</title>
+
+<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/darkly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">The Workflows</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Workflows
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="amplicon_workflow.html">
+        <span class="fal fa-bacteria"></span>
+         
+        Amplicon Sequence Worfklow
+      </a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Basic Bash Tutorial</h1>
+<h4 class="author">Author: Linton Freund (<a
+href="mailto:hfreu002@ucr.edu" class="email">hfreu002@ucr.edu</a>)</h4>
+<h4 class="date">Last update: 02 October, 2023</h4>
+
+</div>
+
+
+<style type="text/css">
+  body{
+  font-size: 13pt;
+}
+</style>
+<!--
+Render from R:
+rmarkdown::render("Basic_Bash_Tutorial.Rmd", clean=TRUE, output_format="html_document")
+R
+
+Rendering from the command-line. To render to PDF format, use the argument setting: output_format="pdf_document".
+$ Rscript -e "rmarkdown::render('Basic_Bash_Tutorial.Rmd', output_format='html_document', clean=TRUE)"
+
+-->
+<div id="welcome" class="section level1">
+<h1>Welcome</h1>
+<p>This tutorial is a collection of helpful Bash commands as well as
+some different loops that you can use for your own scripts. These tricks
+are things I have picked up along the way, and admittedly, things I
+often forget if I am not using them. If you are overwhelmed by this, or
+forget certain things, do not stress! Google is your best friend when it
+comes to coding, and you can always find help that way.</p>
+<p>This tutorial uses two text files (XCZO_MapFile_copy.txt,
+codon_table_copy.txt) that you need to follow along. However, you can
+use these commands with any and all files at your disposal - just be
+sure not to delete any of your files without triple checking, or making
+a copy!</p>
+<div id="what-is-bash" class="section level2">
+<h2>What is Bash?</h2>
+<p>Simply, bash is a coding language that we can use to interact with
+our operating system, particularly a Unix-based operating system (OS).
+Unix and Linux operating systems are similar, so you can use bash to
+interact with these types of OS.</p>
+<p>We use bash in the <strong>shell</strong> or <strong>command-line
+interpreter</strong> to tell the computer what we need it to do. On a
+Mac, we usually use the Terminal ap as our shell, whereas on Windows you
+can use the command prompt app as your shell.</p>
+<p>For more information on Bash, check out its Wiki page here[<a
+href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)"
+class="uri">https://en.wikipedia.org/wiki/Bash_(Unix_shell)</a>] and
+look into this helpful bash/linux tutorial here[<a
+href="https://linuxconfig.org/bash-scripting-tutorial-for-beginners"
+class="uri">https://linuxconfig.org/bash-scripting-tutorial-for-beginners</a>].</p>
+</div>
+</div>
+<div id="a-bash-crash-course" class="section level1">
+<h1>A Bash Crash Course</h1>
+<p><code>pwd</code> will print the directory we are currently in.</p>
+<p><code>ls</code> prints everything that is in our current directory.
+Find more options for <code>ls</code> <a
+href="https://linux.die.net/man/1/ls">here</a>.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="bu">pwd</span> <span class="co"># print current working directory, aka where you are in your computer</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> <span class="co"># list items in your current directory in a long list format</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-ltr</span> <span class="co"># list items in your current directory in long list format, reverse sort by time</span></span></code></pre></div>
+<p>Let’s make a directory and get into that directory. From there, we
+can create a text file and read this text file in the terminal.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">mkdir</span> test_dir <span class="co"># mkdir creates a directory</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="bu">cd</span> test_dir <span class="co"># cd stands for change directory</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">touch</span> test.txt <span class="co"># touch is a command used for creating a file (not editing)</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">nano</span> test.txt <span class="co"># nano is a command used to create OR edit a file, in this case we are editing test.txt</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">cat</span> test.txt <span class="co"># cat is how to read a file</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="fu">rm</span> test.txt <span class="co"># how to delete a file(s) from your directory</span></span></code></pre></div>
+<p>To go back to your previous directory in your <strong>path</strong>
+(aka folder/you/are/in), do the following</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="bu">cd</span> .. <span class="co"># change directory to previous directory in path</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="bu">pwd</span></span></code></pre></div>
+<p>Now let’s try some other commands we can use to seeeing what is in a
+file.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">head</span> XCZO_MapFile_copy.txt <span class="co"># read first 10 lines of file</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">head</span> n <span class="at">-15</span> XCZO_MapFile_copy.txt <span class="co"># read first 15 lines of file</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">tail</span> XCZO_MapFile_copy.txt <span class="co"># read last 10 lines of file; uses -n in same way that head does</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">more</span> XCZO_MapFile_copy.txt <span class="co"># read file by page. Use &quot;space&quot; to go to next page.</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="fu">less</span> XCZO_MapFile_copy.txt <span class="co"># read file by line. Use arrows to navigate up or down the page. Has more options than more</span></span></code></pre></div>
+<p>If we want to read every line in the file, we can create a
+<code>while loop</code> to run through each line of the file, and use
+the <code>echo</code> command to print out the contents of each
+line.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="cf">while</span> <span class="bu">read</span> <span class="va">line</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="bu">echo</span> <span class="va">$line</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="cf">done</span> <span class="op">&lt;</span> codon_table_copy.txt <span class="co"># this is how we feed the input file into the while read loop</span></span></code></pre></div>
+<p>If we want to be just a tad fancy, we can use a <code>for loop</code>
+and the <code>echo</code> command to print everything in our directory.
+We can loop through every file in our current directory by using the
+<code>*</code> as a wildcard. This <code>*</code> is an example of what
+we call a <strong>regular expression</strong> (aka regex) - basically,
+the <code>*</code> can be used to as a wildcard character to represent
+everything, OR it can be used as the asterisk itself.</p>
+<p>Another example of a regex is the <code>.</code>, which can indicate
+both our current working directory, characters we are editing, or as a
+period itself.</p>
+<p>To review, the logic of the for loop is the following: for x (a file,
+a line, anything you want) in this, do the following. This will loop
+repeteadly until all of the actions in the for statement are done.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="cf">for</span> FILE <span class="kw">in</span> <span class="pp">*</span><span class="kw">;</span> <span class="co"># for every FILE in our directory; &quot;*&quot; is a wildcard used to represent every thing</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="bu">echo</span> <span class="va">$FILE</span> <span class="co"># prints $FILE variable; use $ to call a variable later in loop or code</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co"># Here, FILE is a variable you are creating and assigning to every file in your current directory</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">## You can refer to this variable later using the $</span></span></code></pre></div>
+<p>We can also move the file around or rename the file, and make a copy
+of this file.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">mkdir</span> newdir <span class="co"># we will move our file into this directory</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">mv</span> XCZO_MapFile_copy.txt newdir <span class="co"># move file into newdir</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="bu">cd</span> newdir</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="fu">mv</span> XCZO_MapFile_copy.txt XCZO_Map.txt <span class="co"># rename file with mv</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="bu">cd</span> ..</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="fu">cp</span> newdir/XCZO_Map.txt . <span class="co"># copy file in newdir to current working directory, represented by &quot;.&quot;</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="fu">cp</span> newdir/<span class="pp">*</span> . <span class="co"># copy ALL files in newdir to current directory; &quot;*&quot; represents every file in newdir</span></span></code></pre></div>
+<p>If we want to get a little fancier, we can use an
+<code>if else</code> loop to create directories. Personally, I really
+like using this trick when I want to make a directory, but I don’t know
+if it already exists. The <code>!</code> is the same as “not” - so for
+the code below, I am checking if the directory (specificed with -d
+argument) does NOT exist.</p>
+<p>In summary, the if loop logic here is: if this directory does NOT
+exist, then make directory. Otherwise, the directory exists, and nothing
+is done by the loop.</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="cf">if</span> <span class="kw">[[</span> <span class="ot">!</span> <span class="ot">-d</span> ./testdir <span class="kw">]];</span> <span class="cf">then</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>    <span class="fu">mkdir</span> testdir</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-r</span> testdir <span class="co"># how to delete a directory - recursive removal</span></span></code></pre></div>
+<p>In scenarios when we have really long files, or are looking for
+specific information within or about the file, there are several
+commands we can use. <code>grep</code> is an extremely powerful way to
+find certain patterns in your files/directories. There is a
+<code>find</code> command in bash, but we will not go over that
+here.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">wc</span> codon_table_copy.txt <span class="co"># first column shows line count, second column shows word count, third column shows character count</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> codon_table_copy.txt <span class="co"># count number of lines in file</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="fu">grep</span> Stop codon_table_copy.txt <span class="co"># find the Stop codons in the file</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="fu">grep</span> Stop codon_table_copy.txt <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span> <span class="co"># find Stop codons, then count number of them by counting the lines</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">## | is a pipe that is used to string multiple commands together</span></span></code></pre></div>
+<p>We can also <code>sort</code> these files and pull out pieces of
+unique (<code>uniq</code>) information from said files, like unique gene
+IDs or protein names, etc. We can also be very specific as to where we
+search/sort by using the <code>cut</code> command to specify which
+sections/pieces we are cutting from.</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">grep</span> Stop codon_table_copy.txt <span class="kw">|</span> <span class="fu">sort</span> <span class="co"># sorts the order in which these lines with the word &quot;Stop&quot; are arranged in the output; automatically sorts alphabetically in descending order</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="fu">grep</span> Arginine codon_table_copy.txt <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 3 <span class="co"># cut by field; in this case 3rd field is kept and rest are removed</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co"># fields are designated by whatever delimiter is used. For example, in a .csv file, the delimiter is &quot;,&quot;, so each field is separated by a &quot;,&quot;</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">## ^ searches for Arginine, sorts output of grep, and cuts third field (a column in this case) and returns output only from 3rd field</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="fu">grep</span> Arginine codon_table_copy.txt <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 3 <span class="kw">|</span> <span class="fu">uniq</span> <span class="co"># uniq returns only unique or individual instances of text in file(s) - great for checking out duplicates and the number of duplicates</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-f3</span> codon_table_copy.txt <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span> <span class="co"># cuts third field based on tab (\t); sorts 3rd field, then finds unique instances of each string and counts them</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co"># cut can also cut fields based on any delimiter - the default delimiter is tab (\t)</span></span></code></pre></div>
+<p>Finally, we can edit files using the transform command
+<code>tr</code> or the streamline editor command <code>sed</code>.
+Transform or <code>tr</code> is used to make small edits across the
+entire file - for example, if you wanted to delete all of the spaces
+from a file without replacing them, you can use transform.</p>
+<p><code>sed</code> is a lot more useful for editing and replacing, but
+it does have somewhat of a weird syntax. For more on <code>sed</code>
+and using <code>sed</code> with regular expressions, please read this <a
+href="https://www.tutorialspoint.com/unix/unix-regular-expressions.htm">link</a>.</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">cp</span> codon_table_copy.txt codons.txt <span class="co"># make a copy of codon file so we can edit this file without changing original copy</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">head</span> codons.txt <span class="co"># double check that this copy was successful by using head</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="fu">tr</span> a-z A-Z <span class="op">&lt;</span> codons.txt <span class="co"># transforms all lowercase alphabetical characters to uppercase</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&#39;s/\t/ /g&#39;</span> codons.txt <span class="co"># convert all \t to spaces with sed, so that now all fields or columns are separated by spaces and not tabs</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="co">## syntax is sed &#39;s/original_pattern/replacement_pattern/g&#39;, where &quot;g&quot; stands for global editing,.</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="co">### This meanss you can make these changes all throughout the file (hence it&#39;s global) rather than just making one or two edits in the file </span></span></code></pre></div>
+</div>
+<div id="the-end" class="section level1">
+<h1>The End</h1>
+<p>Thank you for following my basic Bash scripting tutorial! I hope it
+is rewarding and helpful.</p>
+<p>If you’d like to get a hold of me to offer me feedback about this
+tutorial, do not hestitate to reach out. My contact information is in
+the <a href="#about-me">About Me</a> section.</p>
+</div>
+<div id="version-information" class="section level1">
+<h1>Version Information</h1>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
+<pre><code>## R version 4.2.2 (2022-10-31)
+## Platform: x86_64-apple-darwin17.0 (64-bit)
+## Running under: macOS Ventura 13.5.2
+## 
+## Matrix products: default
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## loaded via a namespace (and not attached):
+##  [1] digest_0.6.31    R6_2.5.1         jsonlite_1.8.4   lifecycle_1.0.3  magrittr_2.0.3   evaluate_0.20    scales_1.2.1     stringi_1.7.12  
+##  [9] cachem_1.0.7     rlang_1.1.0      cli_3.6.1        rstudioapi_0.14  jquerylib_0.1.4  bslib_0.4.2      vctrs_0.6.1      rmarkdown_2.20  
+## [17] tools_4.2.2      stringr_1.5.0    glue_1.6.2       munsell_0.5.0    xfun_0.40        yaml_2.3.7       fastmap_1.1.1    compiler_4.2.2  
+## [25] colorspace_2.1-0 htmltools_0.5.4  knitr_1.42       sass_0.4.5</code></pre>
+</div>
+<div id="about-me" class="section level1">
+<h1>About Me</h1>
+<p>My name is Linton and my pronouns are they/them. I am currently a PhD
+Student at UC Riverside in the <a href="https://ggb.ucr.edu/">Genetics,
+Genomics, and Bioinformatics</a> PhD program and a member of <a
+href="https://profiles.ucr.edu/app/home/profile/emmaa">Dr. Emma
+Aronson’s lab</a>.</p>
+<p>If you have any questions regarding this workflow and the scripts I
+used, do not hesitate to contact <a
+href="mailto:hfreu002@ucr.edu?subject=Basic%20Bash%20Tutorial">me</a>.
+Or, if you’d like to talk bioinformatics and all things ’omics, I would
+love that too!</p>
+<div align="center">
+<strong>Thank you so much for checking out my tutorial! Happy coding!!
+</strong>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
