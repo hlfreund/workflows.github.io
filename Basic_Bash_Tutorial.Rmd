@@ -53,30 +53,32 @@ For more information on Bash, check out its Wiki page [here](https://en.wikipedi
 Let's start with some simple basics and work our way up! Just to reiterate, these are JUST the basics. Please use this tutorial as a jumping off point for learning more about bash. 
 
 ## The Basics
-`pwd` will print the directory we are currently in.
+`pwd` will print the directory we are currently in. `ls` prints everything that is in our current directory. Find more options for `ls` [here](https://linux.die.net/man/1/ls).
 
-`ls` prints everything that is in our current directory. Find more options for `ls` [here](https://linux.die.net/man/1/ls).
 ```{bash where_are_you, eval=FALSE}
 pwd # print current working directory, aka where you are in your computer
 ```
+
 <center>
 ![](Basic_Bash_Tutorial_Files/pwd_example.png)
 </center>
-<div align="center">Figure 1a: Example of `pwd` output>
+<div align="center">Figure 1a: Example of `pwd` output</div></br>
 
-```{ bash listing,eval=FALSE}
+```{bash listing,eval=FALSE}
 ls -l # list items in your current directory in a long list format
 ls -ltr # list items in your current directory in long list format, reverse sort by time
 ```
+
 <center>
 ![](Basic_Bash_Tutorial_Files/ls_l_example.png)
 </center>
-<div align="center">Figure 1b: Example of `ls -l` output>
+<div align="center">Figure 1b: Example of `ls -l` output</div></br>
 
 <center>
 ![](Basic_Bash_Tutorial_Files/ls_ltr_example.png)
 </center>
-<div align="center">Figure 1b: Example of `ls -ltr` output>
+<div align="center">Figure 1b: Example of `ls -ltr` output</div></br>
+
 
 Let's make a directory called `test_dir` and get into that directory. From there, we can create a text file called `test.txt` and read this text file in the terminal.
 ```{bash make_read_remove, eval=FALSE}
@@ -88,10 +90,12 @@ nano test.txt # nano is a command used to create OR edit a file, in this case we
 cat test.txt # cat is how to read a file
 rm test.txt # how to delete a file(s) from your directory
 ```
+
 <center>
 ![](Basic_Bash_Tutorial_Files/nano_example.png)
 </center>
-<div align="center">Figure 2: `nano` File edit screen for file called "test.txt">
+<div align="center">Figure 2: `nano` File edit screen for file called "test.txt"</div></br>
+
 
 To go back to your previous directory in your **path** (aka folder/you/are/in), do the following
 ```{bash cd_bac, eval=FALSE}
@@ -105,10 +109,12 @@ head XCZO_MapFile_copy.txt # read first 10 lines of file
 head n -15 XCZO_MapFile_copy.txt # read first 15 lines of file
 tail XCZO_MapFile_copy.txt # read last 10 lines of file; uses -n in same way that head does
 ```
+
+
 <center>
 ![](Basic_Bash_Tutorial_Files/head_xczo_file_example.png)
 </center>
-<div align="center">Figure 3: Head of "XCZO_MapFile_copy.txt". NOTE:Does not include entire file in image.>
+<div align="center">Figure 3: Head of "XCZO_MapFile_copy.txt". Full file could not be fit into image.</div></br>
 
 We can also use the `more` function to read files page by page, using the *spacebar* to go to each page. Or, we can use the `less` function to read the files line by line, using the up/down arrows to navigate. These functions are very similar, however, less is a bit faster because it does not load the entire file as you read it. 
 ```{bash more_less_files, eval=FALSE}
@@ -150,10 +156,11 @@ All the helpful flowcharts included below for each loop type come from [ZenFlowc
 If we want to read every line in the file, we can create a `while loop` to run through each line of the file, and use the `echo` command to print out the contents of each line.
 
 The logic of the while loop is the following: while read x (line, string, etc), do x.
+
 <center>
 ![](Basic_Bash_Tutorial_Files/while-loop-example.png)
 </center>
-<div align="center">Figure 4a: While Loop Flowchart. [source](https://www.zenflowchart.com/blog/for-loop-flowchart)>
+<div align="center">Figure 4a: While Loop Flowchart. [source](https://www.zenflowchart.com/blog/for-loop-flowchart)</div></br>
 
 ```{bash while_echo, eval=FALSE}
 while read line
@@ -168,10 +175,11 @@ If we want to be just a tad fancy, we can use a `for loop` and the `echo` comman
 Another example of a regex is the `.`, which can indicate both our current working directory, characters we are editing, or as a period itself. 
 
 To review, the logic of the for loop is the following: for x (a file, a line, anything you want) in this, do the following. This will loop repeteadly until all of the actions in the for statement are done.
+
 <center>
 ![](Basic_Bash_Tutorial_Files/for-loop-flowchart-example.png)
 </center>
-<div align="center">Figure 4b: For Loop Flowchart. [source](https://www.zenflowchart.com/blog/for-loop-flowchart)>
+<div align="center">Figure 4b: For Loop Flowchart. [source](https://www.zenflowchart.com/blog/for-loop-flowchart)</div></br>
 
 ```{bash for_echo, eval=FALSE}
 for FILE in *; # for every FILE in our directory; "*" is a wildcard used to represent every thing
@@ -191,7 +199,7 @@ In summary, the if loop logic here is: if this directory does NOT exist, then ma
 <center>
 ![](Basic_Bash_Tutorial_Files/if-else-loop-example.png)
 </center>
-<div align="center">Figure 4c: If-Else Loop Flowchart. [source](https://www.zenflowchart.com/blog/for-loop-flowchart)>
+<div align="center">Figure 4c: If-Else Loop Flowchart. [source](https://www.zenflowchart.com/blog/for-loop-flowchart)</div></br>
 
 ```{bash if_else, eval=FALSE}
 if [[ ! -d ./testdir ]]; then
@@ -217,10 +225,11 @@ grep Stop codon_table_copy.txt | wc -l # find Stop codons, then count number of 
 
 ## | is a pipe that is used to string multiple commands together
 ```
+
 <center>
 ![](Basic_Bash_Tutorial_Files/wc_grep_examples.png)
 </center>
-<div align="center">Figure 5a: Examples of `wc` and `grep` outputs.>
+<div align="center">Figure 5a: Examples of `wc` and `grep` outputs.</div></br>
 
 We can also `sort` these files and pull out pieces of unique (`uniq`) information from said files, like unique gene IDs or protein names, etc. We can also be very specific as to where we search/sort by using the `cut` command to specify which sections/pieces we are cutting from. 
 ```{bash sort_cut_uniq, eval=FALSE}
@@ -236,10 +245,11 @@ cut -f3 codon_table_copy.txt | sort | uniq -c # cuts third field based on tab (\
 
 # cut can also cut fields based on any delimiter - the default delimiter is tab (\t)
 ```
+
 <center>
 ![](Basic_Bash_Tutorial_Files/grep_sort_cut_examples.png)
 </center>
-<div align="center">Figure 5b: Examples of `grep`,`sort`, `cut`, and `uniq` outputs.>
+<div align="center">Figure 5b: Examples of `grep`,`sort`, `cut`, and `uniq` outputs.</div></br>
 
 ## Transform and Streamline Editor (aka sed)
 Finally, we can edit files using the transform command `tr` or the streamline editor command `sed`. 
@@ -251,10 +261,11 @@ head codons.txt # double check that this copy was successful by using head
 
 tr a-z A-Z < codons.txt # transforms all lower case alphabetical characters to upper case
 ```
+
 <center>
 ![](Basic_Bash_Tutorial_Files/tr_example.png)
 </center>
-<div align="center">Figure 6a: Example of `tr` output, where we converted all lower case letters to upper case.>
+<div align="center">Figure 6a: Example of `tr` output, where we converted all lower case letters to upper case.</div></br>
 
 `sed` is a lot more useful for editing and replacing, but it does have somewhat of a weird syntax. The syntax is **`s/old pattern/new pattern`**, where the old pattern is the one you are editing, and the new pattern is what you are replacing the old pattern with. 
 
@@ -266,10 +277,11 @@ sed 's/\t/ /g' codons.txt # convert all \t to spaces with sed, so that now all f
 ## syntax is sed 's/original_pattern/replacement_pattern/g', where "g" stands for global editing,.
 ### This means you can make these changes all throughout the file (hence it's global) rather than just making one or two edits in the file 
 ```
+
 <center>
 ![](Basic_Bash_Tutorial_Files/sed_example.png)
 </center>
-<div align="center">Figure 6b: Example of `sed` output, where we changed all tabs to spaces.>
+<div align="center">Figure 6b: Example of `sed` output, where we changed all tabs to spaces.</div></br>
 
 # The End
 Thank you for following my basic Bash scripting tutorial! I hope it is rewarding and helpful. 
@@ -286,7 +298,8 @@ My name is Linton and my pronouns are they/them. I am currently a PhD Student at
 
 If you have any questions regarding this workflow and the scripts I used, do not hesitate to contact [me](mailto:hfreu002@ucr.edu?subject=Basic Bash Tutorial). 
 
-<div align="center">**Thank you so much for checking out my tutorial! Happy coding!! **</div>
+<div align="center">**Thank you so much for checking out my tutorial! Happy coding!! **</div></br>
+
 
 <center>
 ![](Basic_Bash_Tutorial_Files/Bash_Logo_Colored.png)

@@ -540,9 +540,9 @@ reiterate, these are JUST the basics. Please use this tutorial as a
 jumping off point for learning more about bash.</p>
 <div id="the-basics" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> The Basics</h2>
-<p><code>pwd</code> will print the directory we are currently in.</p>
-<p><code>ls</code> prints everything that is in our current directory.
-Find more options for <code>ls</code> <a
+<p><code>pwd</code> will print the directory we are currently in.
+<code>ls</code> prints everything that is in our current directory. Find
+more options for <code>ls</code> <a
 href="https://linux.die.net/man/1/ls">here</a>.</p>
 <div class="sourceCode" id="cb1"><pre
 class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="bu">pwd</span> <span class="co"># print current working directory, aka where you are in your computer</span></span></code></pre></div>
@@ -550,86 +550,97 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="
 <img src="Basic_Bash_Tutorial_Files/pwd_example.png" />
 </center>
 <div align="center">
-<p>Figure 1a: Example of <code>pwd</code> output&gt;</p>
-<code>{ bash listing,eval=FALSE} ls -l # list items in your current directory in a long list format ls -ltr # list items in your current directory in long list format, reverse sort by time</code>
+Figure 1a: Example of <code>pwd</code> output
+</div>
+<p></br></p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> <span class="co"># list items in your current directory in a long list format</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-ltr</span> <span class="co"># list items in your current directory in long list format, reverse sort by time</span></span></code></pre></div>
 <center>
 <img src="Basic_Bash_Tutorial_Files/ls_l_example.png" />
 </center>
 <div align="center">
-<p>Figure 1b: Example of <code>ls -l</code> output&gt;</p>
+Figure 1b: Example of <code>ls -l</code> output
+</div>
+<p></br></p>
 <center>
 <img src="Basic_Bash_Tutorial_Files/ls_ltr_example.png" />
 </center>
 <div align="center">
-<p>Figure 1b: Example of <code>ls -ltr</code> output&gt;</p>
+Figure 1b: Example of <code>ls -ltr</code> output
+</div>
+<p></br></p>
 <p>Let’s make a directory called <code>test_dir</code> and get into that
 directory. From there, we can create a text file called
 <code>test.txt</code> and read this text file in the terminal.</p>
-<div class="sourceCode" id="cb2"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">mkdir</span> test_dir <span class="co"># mkdir creates a directory</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="bu">cd</span> test_dir <span class="co"># cd stands for change directory</span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">touch</span> test.txt <span class="co"># touch is a command used for creating a file (not editing)</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">nano</span> test.txt <span class="co"># nano is a command used to create OR edit a file, in this case we are editing test.txt</span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">cat</span> test.txt <span class="co"># cat is how to read a file</span></span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="fu">rm</span> test.txt <span class="co"># how to delete a file(s) from your directory</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">mkdir</span> test_dir <span class="co"># mkdir creates a directory</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="bu">cd</span> test_dir <span class="co"># cd stands for change directory</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">touch</span> test.txt <span class="co"># touch is a command used for creating a file (not editing)</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="fu">nano</span> test.txt <span class="co"># nano is a command used to create OR edit a file, in this case we are editing test.txt</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="fu">cat</span> test.txt <span class="co"># cat is how to read a file</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="fu">rm</span> test.txt <span class="co"># how to delete a file(s) from your directory</span></span></code></pre></div>
 <center>
 <img src="Basic_Bash_Tutorial_Files/nano_example.png" />
 </center>
 <div align="center">
-<p>Figure 2: <code>nano</code> File edit screen for file called
-“test.txt”&gt;</p>
+Figure 2: <code>nano</code> File edit screen for file called “test.txt”
+</div>
+<p></br></p>
 <p>To go back to your previous directory in your <strong>path</strong>
 (aka folder/you/are/in), do the following</p>
-<div class="sourceCode" id="cb3"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="bu">cd</span> .. <span class="co"># change directory to previous directory in path</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="bu">pwd</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="bu">cd</span> .. <span class="co"># change directory to previous directory in path</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="bu">pwd</span></span></code></pre></div>
 <p>Now let’s try some other commands we can use to seeing what is in a
 file. <code>head</code> can show us the first 10 lines of a file, and
 <code>tail</code> can show us the last 10 lines of a file.</p>
-<div class="sourceCode" id="cb4"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">head</span> XCZO_MapFile_copy.txt <span class="co"># read first 10 lines of file</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">head</span> n <span class="at">-15</span> XCZO_MapFile_copy.txt <span class="co"># read first 15 lines of file</span></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">tail</span> XCZO_MapFile_copy.txt <span class="co"># read last 10 lines of file; uses -n in same way that head does</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">head</span> XCZO_MapFile_copy.txt <span class="co"># read first 10 lines of file</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">head</span> n <span class="at">-15</span> XCZO_MapFile_copy.txt <span class="co"># read first 15 lines of file</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">tail</span> XCZO_MapFile_copy.txt <span class="co"># read last 10 lines of file; uses -n in same way that head does</span></span></code></pre></div>
 <center>
 <img src="Basic_Bash_Tutorial_Files/head_xczo_file_example.png" />
 </center>
 <div align="center">
-<p>Figure 3: Head of “XCZO_MapFile_copy.txt”. NOTE:Does not include
-entire file in image.&gt;</p>
+Figure 3: Head of “XCZO_MapFile_copy.txt”. Full file could not be fit
+into image.
+</div>
+<p></br></p>
 <p>We can also use the <code>more</code> function to read files page by
 page, using the <em>spacebar</em> to go to each page. Or, we can use the
 <code>less</code> function to read the files line by line, using the
 up/down arrows to navigate. These functions are very similar, however,
 less is a bit faster because it does not load the entire file as you
 read it.</p>
-<div class="sourceCode" id="cb5"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">more</span> XCZO_MapFile_copy.txt <span class="co"># read file by page. Use &quot;space&quot; to go to next page.</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co"># to quit, just type &quot;q&quot; and enter</span></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">less</span> XCZO_MapFile_copy.txt <span class="co"># read file by line. Use arrows to navigate up or down the page. Has more options than more</span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co"># to quit, just type &quot;q&quot; and enter</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">more</span> XCZO_MapFile_copy.txt <span class="co"># read file by page. Use &quot;space&quot; to go to next page.</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co"># to quit, just type &quot;q&quot; and enter</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="fu">less</span> XCZO_MapFile_copy.txt <span class="co"># read file by line. Use arrows to navigate up or down the page. Has more options than more</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co"># to quit, just type &quot;q&quot; and enter</span></span></code></pre></div>
 <p>We can also move the file around or rename the file with the
 <code>mv</code> command, and make a copy of this file using the
 <code>cp</code> command.</p>
-<div class="sourceCode" id="cb6"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">mkdir</span> newdir <span class="co"># we will move our file into this directory</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">mv</span> XCZO_MapFile_copy.txt newdir <span class="co"># move file into newdir</span></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="bu">cd</span> newdir</span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-ltr</span> <span class="co"># what is in our directory?</span></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="fu">mv</span> XCZO_MapFile_copy.txt XCZO_Map.txt <span class="co"># rename file XCZO_MapFile_copy.txt to XCZO_Map.txt with mv</span></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-ltr</span> <span class="co"># sanity check - always good practice to see if your previous step worked!</span></span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="bu">cd</span> ..</span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="fu">cp</span> newdir/XCZO_Map.txt . <span class="co"># copy file in newdir to current working directory, represented by &quot;.&quot;</span></span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="fu">cp</span> newdir/<span class="pp">*</span> . <span class="co"># copy ALL files in newdir to current directory; &quot;*&quot; represents every file in newdir</span></span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a></span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co"># sanity check - did our copy just work?</span></span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="bu">cd</span> newdir</span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-ltr</span></span>
-<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="bu">cd</span> ..</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">mkdir</span> newdir <span class="co"># we will move our file into this directory</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">mv</span> XCZO_MapFile_copy.txt newdir <span class="co"># move file into newdir</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="bu">cd</span> newdir</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-ltr</span> <span class="co"># what is in our directory?</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="fu">mv</span> XCZO_MapFile_copy.txt XCZO_Map.txt <span class="co"># rename file XCZO_MapFile_copy.txt to XCZO_Map.txt with mv</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-ltr</span> <span class="co"># sanity check - always good practice to see if your previous step worked!</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="bu">cd</span> ..</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="fu">cp</span> newdir/XCZO_Map.txt . <span class="co"># copy file in newdir to current working directory, represented by &quot;.&quot;</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="fu">cp</span> newdir/<span class="pp">*</span> . <span class="co"># copy ALL files in newdir to current directory; &quot;*&quot; represents every file in newdir</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co"># sanity check - did our copy just work?</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="bu">cd</span> newdir</span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-ltr</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="bu">cd</span> ..</span></code></pre></div>
 </div>
 <div id="loops" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Loops</h2>
@@ -650,19 +661,21 @@ Loops</h3>
 <code>while loop</code> to run through each line of the file, and use
 the <code>echo</code> command to print out the contents of each
 line.</p>
-The logic of the while loop is the following: while read x (line,
-string, etc), do x.
+<p>The logic of the while loop is the following: while read x (line,
+string, etc), do x.</p>
 <center>
 <img src="Basic_Bash_Tutorial_Files/while-loop-example.png" />
 </center>
 <div align="center">
-<p>Figure 4a: While Loop Flowchart. <a
-href="https://www.zenflowchart.com/blog/for-loop-flowchart">source</a>&gt;</p>
-<div class="sourceCode" id="cb7"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="cf">while</span> <span class="bu">read</span> <span class="va">line</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="cf">do</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="bu">echo</span> <span class="va">$line</span> <span class="co"># prints every line, defined by $line variable</span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="cf">done</span> <span class="op">&lt;</span> codon_table_copy.txt <span class="co"># this is how we feed the input file into the while read loop</span></span></code></pre></div>
+Figure 4a: While Loop Flowchart. <a
+href="https://www.zenflowchart.com/blog/for-loop-flowchart">source</a>
+</div>
+<p></br></p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="cf">while</span> <span class="bu">read</span> <span class="va">line</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="bu">echo</span> <span class="va">$line</span> <span class="co"># prints every line, defined by $line variable</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="cf">done</span> <span class="op">&lt;</span> codon_table_copy.txt <span class="co"># this is how we feed the input file into the while read loop</span></span></code></pre></div>
 </div>
 <div id="for-loops" class="section level3" number="2.2.2">
 <h3><span class="header-section-number">2.2.2</span> For Loops</h3>
@@ -676,23 +689,25 @@ everything, OR it can be used as the asterisk itself.</p>
 <p>Another example of a regex is the <code>.</code>, which can indicate
 both our current working directory, characters we are editing, or as a
 period itself.</p>
-To review, the logic of the for loop is the following: for x (a file, a
-line, anything you want) in this, do the following. This will loop
-repeteadly until all of the actions in the for statement are done.
+<p>To review, the logic of the for loop is the following: for x (a file,
+a line, anything you want) in this, do the following. This will loop
+repeteadly until all of the actions in the for statement are done.</p>
 <center>
 <img src="Basic_Bash_Tutorial_Files/for-loop-flowchart-example.png" />
 </center>
 <div align="center">
-<p>Figure 4b: For Loop Flowchart. <a
-href="https://www.zenflowchart.com/blog/for-loop-flowchart">source</a>&gt;</p>
-<div class="sourceCode" id="cb8"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="cf">for</span> FILE <span class="kw">in</span> <span class="pp">*</span><span class="kw">;</span> <span class="co"># for every FILE in our directory; &quot;*&quot; is a wildcard used to represent every thing</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="cf">do</span></span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="bu">echo</span> <span class="va">$FILE</span> <span class="co"># prints $FILE variable; use $ to call a variable later in loop or code</span></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="cf">done</span></span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co"># Here, FILE is a variable you are creating and assigning to every file in your current directory</span></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">## You can refer to this variable later using the $</span></span></code></pre></div>
+Figure 4b: For Loop Flowchart. <a
+href="https://www.zenflowchart.com/blog/for-loop-flowchart">source</a>
+</div>
+<p></br></p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="cf">for</span> FILE <span class="kw">in</span> <span class="pp">*</span><span class="kw">;</span> <span class="co"># for every FILE in our directory; &quot;*&quot; is a wildcard used to represent every thing</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="bu">echo</span> <span class="va">$FILE</span> <span class="co"># prints $FILE variable; use $ to call a variable later in loop or code</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co"># Here, FILE is a variable you are creating and assigning to every file in your current directory</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">## You can refer to this variable later using the $</span></span></code></pre></div>
 </div>
 <div id="if-else-loops" class="section level3" number="2.2.3">
 <h3><span class="header-section-number">2.2.3</span> If-Else Loops</h3>
@@ -709,15 +724,17 @@ is done by the loop.</p>
 <img src="Basic_Bash_Tutorial_Files/if-else-loop-example.png" />
 </center>
 <div align="center">
-<p>Figure 4c: If-Else Loop Flowchart. <a
-href="https://www.zenflowchart.com/blog/for-loop-flowchart">source</a>&gt;</p>
-<div class="sourceCode" id="cb9"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="cf">if</span> <span class="kw">[[</span> <span class="ot">!</span> <span class="ot">-d</span> ./testdir <span class="kw">]];</span> <span class="cf">then</span></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="co"># [[ ! -d {dir} ]] --&gt; checks if the directory dir does NOT exist</span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>    <span class="fu">mkdir</span> testdir</span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="cf">fi</span></span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-r</span> testdir <span class="co"># how to delete a directory - recursive removal</span></span></code></pre></div>
+Figure 4c: If-Else Loop Flowchart. <a
+href="https://www.zenflowchart.com/blog/for-loop-flowchart">source</a>
+</div>
+<p></br></p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="cf">if</span> <span class="kw">[[</span> <span class="ot">!</span> <span class="ot">-d</span> ./testdir <span class="kw">]];</span> <span class="cf">then</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="co"># [[ ! -d {dir} ]] --&gt; checks if the directory dir does NOT exist</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>    <span class="fu">mkdir</span> testdir</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-r</span> testdir <span class="co"># how to delete a directory - recursive removal</span></span></code></pre></div>
 </div>
 </div>
 <div id="word-count-grep" class="section level2" number="2.3">
@@ -732,45 +749,48 @@ here.</p>
 <p>We can also use tools like <code>wc</code> to figure out how many
 words (or lines or other pieces of information) are in our file of
 interest.</p>
-<div class="sourceCode" id="cb10"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">wc</span> codon_table_copy.txt <span class="co"># wc is the &quot;word count&quot; command</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co">## for wc - first column shows line count, second column shows word count, third column shows character count</span></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> codon_table_copy.txt <span class="co"># count number of lines in file</span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="fu">grep</span> Stop codon_table_copy.txt <span class="co"># find the Stop codons in the file</span></span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="fu">grep</span> Stop codon_table_copy.txt <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span> <span class="co"># find Stop codons, then count number of them by counting the lines</span></span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a></span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">## | is a pipe that is used to string multiple commands together</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">wc</span> codon_table_copy.txt <span class="co"># wc is the &quot;word count&quot; command</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co">## for wc - first column shows line count, second column shows word count, third column shows character count</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> codon_table_copy.txt <span class="co"># count number of lines in file</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="fu">grep</span> Stop codon_table_copy.txt <span class="co"># find the Stop codons in the file</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="fu">grep</span> Stop codon_table_copy.txt <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span> <span class="co"># find Stop codons, then count number of them by counting the lines</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="co">## | is a pipe that is used to string multiple commands together</span></span></code></pre></div>
 <center>
 <img src="Basic_Bash_Tutorial_Files/wc_grep_examples.png" />
 </center>
 <div align="center">
-<p>Figure 5a: Examples of <code>wc</code> and <code>grep</code>
-outputs.&gt;</p>
+Figure 5a: Examples of <code>wc</code> and <code>grep</code> outputs.
+</div>
+<p></br></p>
 <p>We can also <code>sort</code> these files and pull out pieces of
 unique (<code>uniq</code>) information from said files, like unique gene
 IDs or protein names, etc. We can also be very specific as to where we
 search/sort by using the <code>cut</code> command to specify which
 sections/pieces we are cutting from.</p>
-<div class="sourceCode" id="cb11"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">grep</span> Stop codon_table_copy.txt <span class="kw">|</span> <span class="fu">sort</span> <span class="co"># sorts the order in which these lines with the word &quot;Stop&quot; are arranged in the output; automatically sorts alphabetically in descending order</span></span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="fu">grep</span> Arginine codon_table_copy.txt <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 3 <span class="co"># cut by field; in this case 3rd field is kept and rest are removed</span></span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co"># fields are designated by whatever delimiter is used. For example, in a .csv file, the delimiter is &quot;,&quot;, so each field is separated by a &quot;,&quot;</span></span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co">## ^ searches for Arginine, sorts output of grep, and cuts third field (a column in this case) and returns output only from 3rd field</span></span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a></span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="fu">grep</span> Arginine codon_table_copy.txt <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 3 <span class="kw">|</span> <span class="fu">uniq</span> <span class="co"># uniq returns only unique or individual instances of text in file(s) - great for checking out duplicates and the number of duplicates</span></span>
-<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a></span>
-<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-f3</span> codon_table_copy.txt <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span> <span class="co"># cuts third field based on tab (\t); sorts 3rd field, then finds unique instances of each string and counts them</span></span>
-<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a></span>
-<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="co"># cut can also cut fields based on any delimiter - the default delimiter is tab (\t)</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">grep</span> Stop codon_table_copy.txt <span class="kw">|</span> <span class="fu">sort</span> <span class="co"># sorts the order in which these lines with the word &quot;Stop&quot; are arranged in the output; automatically sorts alphabetically in descending order</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="fu">grep</span> Arginine codon_table_copy.txt <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 3 <span class="co"># cut by field; in this case 3rd field is kept and rest are removed</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co"># fields are designated by whatever delimiter is used. For example, in a .csv file, the delimiter is &quot;,&quot;, so each field is separated by a &quot;,&quot;</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co">## ^ searches for Arginine, sorts output of grep, and cuts third field (a column in this case) and returns output only from 3rd field</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="fu">grep</span> Arginine codon_table_copy.txt <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 3 <span class="kw">|</span> <span class="fu">uniq</span> <span class="co"># uniq returns only unique or individual instances of text in file(s) - great for checking out duplicates and the number of duplicates</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-f3</span> codon_table_copy.txt <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span> <span class="co"># cuts third field based on tab (\t); sorts 3rd field, then finds unique instances of each string and counts them</span></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="co"># cut can also cut fields based on any delimiter - the default delimiter is tab (\t)</span></span></code></pre></div>
 <center>
 <img src="Basic_Bash_Tutorial_Files/grep_sort_cut_examples.png" />
 </center>
 <div align="center">
-<p>Figure 5b: Examples of <code>grep</code>,<code>sort</code>,
-<code>cut</code>, and <code>uniq</code> outputs.&gt;</p>
+Figure 5b: Examples of <code>grep</code>,<code>sort</code>,
+<code>cut</code>, and <code>uniq</code> outputs.
+</div>
+<p></br></p>
 </div>
 <div id="transform-and-streamline-editor-aka-sed" class="section level2"
 number="2.4">
@@ -782,17 +802,19 @@ Streamline Editor (aka sed)</h2>
 entire file. For example, if you wanted to delete all of the spaces from
 a file, or if you wanted to switch all of your spaces to a tab, then you
 can use transform.</p>
-<div class="sourceCode" id="cb12"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">cp</span> codon_table_copy.txt codons.txt <span class="co"># make a copy of codon file so we can edit this file without changing original copy</span></span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">head</span> codons.txt <span class="co"># double check that this copy was successful by using head</span></span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="fu">tr</span> a-z A-Z <span class="op">&lt;</span> codons.txt <span class="co"># transforms all lower case alphabetical characters to upper case</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">cp</span> codon_table_copy.txt codons.txt <span class="co"># make a copy of codon file so we can edit this file without changing original copy</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">head</span> codons.txt <span class="co"># double check that this copy was successful by using head</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="fu">tr</span> a-z A-Z <span class="op">&lt;</span> codons.txt <span class="co"># transforms all lower case alphabetical characters to upper case</span></span></code></pre></div>
 <center>
 <img src="Basic_Bash_Tutorial_Files/tr_example.png" />
 </center>
 <div align="center">
-<p>Figure 6a: Example of <code>tr</code> output, where we converted all
-lower case letters to upper case.&gt;</p>
+Figure 6a: Example of <code>tr</code> output, where we converted all
+lower case letters to upper case.
+</div>
+<p></br></p>
 <p><code>sed</code> is a lot more useful for editing and replacing, but
 it does have somewhat of a weird syntax. The syntax is
 <strong><code>s/old pattern/new pattern</code></strong>, where the old
@@ -805,17 +827,19 @@ href="https://www.tutorialspoint.com/unix/unix-regular-expressions.htm">Tutorial
 Point link</a> and the <a
 href="https://www.geeksforgeeks.org/sed-command-in-linux-unix-with-examples/">Geeks
 for Geeks Link</a>.</p>
-<div class="sourceCode" id="cb13"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&#39;s/\t/ /g&#39;</span> codons.txt <span class="co"># convert all \t to spaces with sed, so that now all fields or columns are separated by spaces and not tabs</span></span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="co">## syntax is sed &#39;s/original_pattern/replacement_pattern/g&#39;, where &quot;g&quot; stands for global editing,.</span></span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="co">### This means you can make these changes all throughout the file (hence it&#39;s global) rather than just making one or two edits in the file </span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&#39;s/\t/ /g&#39;</span> codons.txt <span class="co"># convert all \t to spaces with sed, so that now all fields or columns are separated by spaces and not tabs</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="co">## syntax is sed &#39;s/original_pattern/replacement_pattern/g&#39;, where &quot;g&quot; stands for global editing,.</span></span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="co">### This means you can make these changes all throughout the file (hence it&#39;s global) rather than just making one or two edits in the file </span></span></code></pre></div>
 <center>
 <img src="Basic_Bash_Tutorial_Files/sed_example.png" />
 </center>
 <div align="center">
-<p>Figure 6b: Example of <code>sed</code> output, where we changed all
-tabs to spaces.&gt;</p>
+Figure 6b: Example of <code>sed</code> output, where we changed all tabs
+to spaces.
+</div>
+<p></br></p>
 </div>
 </div>
 <div id="the-end" class="section level1" number="3">
@@ -829,7 +853,7 @@ the <a href="#about-me">About Me</a> section.</p>
 <div id="version-information" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Version
 Information</h1>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
 <pre><code>## R version 4.2.2 (2022-10-31)
 ## Platform: x86_64-apple-darwin17.0 (64-bit)
 ## Running under: macOS Ventura 13.5.2
@@ -863,6 +887,7 @@ href="mailto:hfreu002@ucr.edu?subject=Basic%20Bash%20Tutorial">me</a>.</p>
 <strong>Thank you so much for checking out my tutorial! Happy coding!!
 </strong>
 </div>
+<p></br></p>
 <center>
 <img src="Basic_Bash_Tutorial_Files/Bash_Logo_Colored.png" />
 </center>
