@@ -59,7 +59,7 @@ I am currently focusing on the characterization of soil, water, and aeolian (i.e
 
 For some personal information about me, please feel free to see my profile on [500 Queer Scientists](https://500queerscientists.com/hannah-freund/?ids=[5381]).
 
-# Helpful Resources
+# Other Helpful Resources
 
 Here are some of my favorite resources for learning more about coding, bioinformatics, statistics, and sequence analysis. 
 
