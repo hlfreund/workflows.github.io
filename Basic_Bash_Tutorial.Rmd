@@ -1,0 +1,188 @@
+---
+title: "Basic Bash Tutorial"
+author: "Author: Linton Freund (hfreu002@ucr.edu)"
+date: "Last update: `r format(Sys.time(), '%d %B, %Y')`" 
+output:
+  html_document:
+    toc: true # table of content true
+    toc_depth: 3  # upto three depths of headings (specified by #, ## and ###)
+    number_sections: false  ## if you want number sections at each table header
+    theme: darkly  # many options for theme, see here: https://www.datadreaming.org/post/r-markdown-theme-gallery/
+    highlight: haddock  # specifies the syntax highlighting style
+    code_folding: show
+    toc_float: true
+    collapsed: true
+    smooth_scroll: true
+fontsize: 15pt
+always_allow_html: yes
+---
+
+<style type="text/css">
+  body{
+  font-size: 13pt;
+}
+</style>
+
+<!--
+Render from R:
+rmarkdown::render("Basic_Bash_Tutorial.Rmd", clean=TRUE, output_format="html_document")
+R
+
+Rendering from the command-line. To render to PDF format, use the argument setting: output_format="pdf_document".
+$ Rscript -e "rmarkdown::render('Basic_Bash_Tutorial.Rmd', output_format='html_document', clean=TRUE)"
+
+-->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Welcome
+This tutorial is a collection of helpful bash commands as well as some different loops that you can use for your own scripts. These tricks are things I have picked up along the way, and admittedly, things I often forget if I am not using them. If you are overwhelmed by this, or forget certain things, do not stress! Google is your best friend when it comes to coding, and you can always find help that way.
+
+This tutorial uses two text files (XCZO_MapFile_copy.txt, codon_table_copy.txt) that you need to follow along. 
+However, you can use these commands with any and all files at your disposal - just be sure not to delete any of your files without triple checking, or making a copy.
+
+# A Bash Crash Course
+`pwd` will print the directory we are currently in.
+
+`ls` prints everything that is in our current directory. Find more options for `ls` [here](https://linux.die.net/man/1/ls).
+```{bash where_what, eval=FALSE}
+pwd # print current working directory, aka where you are in your computer
+
+ls -l # list items in your current directory in a long list format
+ls -ltr # list items in your current directory in long list format, reverse sort by time
+```
+
+Let's make a directory and get into that directory. From there, we can create a text file and read this text file in the terminal.
+```{bash make_read_remove, eval=FALSE}
+mkdir test_dir # mkdir creates a directory
+cd test_dir # cd stands for change directory
+
+touch test.txt # touch is a command used for creating a file (not editing)
+nano test.txt # nano is a command used to create OR edit a file, in this case we are editing test.txt
+cat test.txt # cat is how to read a file
+rm test.txt # how to delete a file(s) from your directory
+```
+
+To go back to your previous directory in your **path** (aka folder/you/are/in), do the following
+```{bash cd_bac, eval=FALSE}
+cd .. # change directory to previous directory in path
+pwd
+```
+
+Now let's try some other commands we can use to seeeing what is in a file.
+```{bash look_at_files, eval=FALSE}
+head XCZO_MapFile_copy.txt # read first 10 lines of file
+head n -15 XCZO_MapFile_copy.txt # read first 15 lines of file
+tail XCZO_MapFile_copy.txt # read last 10 lines of file; uses -n in same way that head does
+
+more XCZO_MapFile_copy.txt # read file by page. Use "space" to go to next page.
+less XCZO_MapFile_copy.txt # read file by line. Use arrows to navigate up or down the page. Has more options than more
+```
+
+If we want to read every line in the file, we can create a `while loop` to run through each line of the file, and use the `echo` command to print out the contents of each line.
+```{bash while_echo, eval=FALSE}
+while read line
+do
+  echo $line
+done < codon_table_copy.txt # this is how we feed the input file into the while read loop
+```
+
+If we want to be just a tad fancy, we can use a `for loop` and the `echo` command to print everything in our directory. We can loop through every file in our current directory by using the `*` as a wildcard. This `*` is an example of what we call a **regular expression** (aka regex) - basically, the `*` can be used to as a wildcard character to represent everything, OR it can be used as the asterisk itself. 
+
+Another example of a regex is the `.`, which can indicate both our current working directory, characters we are editing, or as a period itself. 
+
+To review, the logic of the for loop is the following: for x (a file, a line, anything you want) in this, do the following. This will loop repeteadly until all of the actions in the for statement are done.
+```{bash for_echo, eval=FALSE}
+for FILE in *; # for every FILE in our directory; "*" is a wildcard used to represent every thing
+do
+  echo $FILE # prints $FILE variable; use $ to call a variable later in loop or code
+done
+
+# Here, FILE is a variable you are creating and assigning to every file in your current directory
+## You can refer to this variable later using the $
+```
+
+We can also move the file around or rename the file, and make a copy of this file.
+```{bash move_move, eval=FALSE}
+mkdir newdir # we will move our file into this directory
+mv XCZO_MapFile_copy.txt newdir # move file into newdir
+
+cd newdir
+mv XCZO_MapFile_copy.txt XCZO_Map.txt # rename file with mv
+cd ..
+
+cp newdir/XCZO_Map.txt . # copy file in newdir to current working directory, represented by "."
+cp newdir/* . # copy ALL files in newdir to current directory; "*" represents every file in newdir
+```
+
+If we want to get a little fancier, we can use an `if else` loop to create directories. Personally, I really like using this trick when I want to make a directory, but I don't know if it already exists. The `!` is the same as "not" - so for the code  below, I am checking if the directory (specificed with -d argument) does NOT exist. 
+
+In summary, the if loop logic here is: if this directory does NOT exist, then make directory. Otherwise, the directory exists, and nothing is done by the loop.
+```{bash if_else, eval=FALSE}
+if [[ ! -d ./testdir ]]; then
+    mkdir testdir
+fi
+
+rm -r testdir # how to delete a directory - recursive removal
+```
+
+In scenarios when we have really long files, or are looking for specific information within or about the file, there are several commands we can use. `grep` is an extremely powerful way to find certain patterns in your files/directories. There is a `find` command in bash, but we will not go over that here.
+```{bash grep_wc, eval=FALSE}
+wc codon_table_copy.txt # first column shows line count, second column shows word count, third column shows character count
+wc -l codon_table_copy.txt # count number of lines in file
+
+grep Stop codon_table_copy.txt # find the Stop codons in the file
+grep Stop codon_table_copy.txt | wc -l # find Stop codons, then count number of them by counting the lines
+
+## | is a pipe that is used to string multiple commands together
+```
+
+We can also `sort` these files and pull out pieces of unique (`uniq`) information from said files, like unique gene IDs or protein names, etc. We can also be very specific as to where we search/sort by using the `cut` command to specify which sections/pieces we are cutting from. 
+```{bash sort_cut_uniq, eval=FALSE}
+grep Stop codon_table_copy.txt | sort # sorts the order in which these lines with the word "Stop" are arranged in the output; automatically sorts alphabetically in descending order
+
+grep Arginine codon_table_copy.txt | sort | cut -f 3 # cut by field; in this case 3rd field is kept and rest are removed
+# fields are designated by whatever delimiter is used. For example, in a .csv file, the delimiter is ",", so each field is separated by a ","
+## ^ searches for Arginine, sorts output of grep, and cuts third field (a column in this case) and returns output only from 3rd field
+
+grep Arginine codon_table_copy.txt | sort | cut -f 3 | uniq # uniq returns only unique or individual instances of text in file(s) - great for checking out duplicates and the number of duplicates
+
+cut -f3 codon_table_copy.txt | sort | uniq -c # cuts third field based on tab (\t); sorts 3rd field, then finds unique instances of each string and counts them
+
+# cut can also cut fields based on any delimiter - the default delimiter is tab (\t)
+```
+
+Finally, we can edit files using the transform command `tr` or the streamline editor command `sed`. Transform or `tr` is used to make small edits across the entire file - for example, if you wanted to delete all of the spaces from a file without replacing them, you can use transform. 
+
+`sed` is a lot more useful for editing and replacing, but it does have somewhat of a weird syntax. For more on `sed` and using `sed` with regular expressions, please read this [link](https://www.tutorialspoint.com/unix/unix-regular-expressions.htm).
+```{bash sed_tr, eval=FALSE}
+cp codon_table_copy.txt codons.txt # make a copy of codon file so we can edit this file without changing original copy
+head codons.txt # double check that this copy was successful by using head
+
+tr a-z A-Z < codons.txt # transforms all lowercase alphabetical characters to uppercase
+
+sed 's/\t/ /g' codons.txt # convert all \t to spaces with sed, so that now all fields or columns are separated by spaces and not tabs
+
+## syntax is sed 's/original_pattern/replacement_pattern/g', where "g" stands for global editing,.
+### This meanss you can make these changes all throughout the file (hence it's global) rather than just making one or two edits in the file 
+```
+
+# The End
+Thank you for following my basic Bash scripting tutorial! I hope it is rewarding and helpful. 
+
+If you'd like to get a hold of me to offer me feedback about this tutorial, do not hestitate to reach out. My contact information is in the [About Me](#about-me) section.
+
+# Version Information
+```{r sessionInfo}
+sessionInfo()
+```
+
+# About Me {#about-me}
+My name is Linton and my pronouns are they/them. I am currently a PhD Student at UC Riverside in the [Genetics, Genomics, and Bioinformatics](https://ggb.ucr.edu/) PhD program and a member of [Dr. Emma Aronson's lab](https://profiles.ucr.edu/app/home/profile/emmaa). 
+
+If you have any questions regarding this workflow and the scripts I used, do not hesitate to contact [me](mailto:hfreu002@ucr.edu?subject=Basic Bash Tutorial). Or, if you'd like to talk bioinformatics and all things 'omics, I would love that too!
+
+If you'd like to learn more about my research background and check out some of my other work, feel free to visit my [website](https://hlfreund.github.io/). It is a work in progress, just fyi!
+
+<div align="center">**Thank you so much for checking out my tutorial! Happy coding!! **</div>
