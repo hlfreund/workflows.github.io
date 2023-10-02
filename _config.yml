@@ -2,9 +2,9 @@
 #      Main Configs       #
 # ----------------------- #
 
-title: Hannah Freund
+title: Linton Freund
 email: hannahfreund3@gmail.com
-author: Hannah Freund
+author: Linton Freund
 description: "Home Page"
 baseurl: /workflows.github.io/
 defaults:
@@ -43,13 +43,13 @@ social:
     url: https://www.linkedin.com/in/hannahfreund/
   - icon: file-pdf-o
     title: CV
-    url: img/Hannah_Freund_CV.pdf
+    url: img/Linton_Freund_CV.pdf
 #  - icon: website
 #    title: CV Lattes
 #    url: http://lattes.cnpq.br/5399100590606067
   - icon: twitter
     title: twitter
-    url: https://twitter.com/UrFreundHannah
+    url: https://twitter.com/UrFreundLinton
   - icon: fab fa-google
     title: google scholar
     url: https://scholar.google.com/citations?user=yvcDi8gAAAAJ&hl=en&oi=ao

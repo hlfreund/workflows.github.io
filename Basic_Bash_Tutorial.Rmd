@@ -6,13 +6,13 @@ output:
   html_document:
     toc: true # table of content true
     toc_depth: 3  # upto three depths of headings (specified by #, ## and ###)
-    number_sections: false  ## if you want number sections at each table header
-    theme: darkly  # many options for theme, see here: https://www.datadreaming.org/post/r-markdown-theme-gallery/
-    highlight: haddock  # specifies the syntax highlighting style
+    number_sections: yes  ## if you want number sections at each table header
     code_folding: show
-    toc_float: true
-    collapsed: true
-    smooth_scroll: true
+    collapsed: yes
+    highlight: pygments # specifies the syntax highlighting style
+    smooth_scroll: yes
+    theme: cosmo # many options for theme, see here: https://www.datadreaming.org/post/r-markdown-theme-gallery/
+    toc_float: yes
 fontsize: 15pt
 always_allow_html: yes
 ---
